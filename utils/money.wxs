@@ -1,7 +1,7 @@
 // 共享 WXS：金额格式化（WXML 表达式不可调用 JS 方法，故用 WXS）
 function money(v) {
-  var n = Number(v)
-  if (isNaN(n)) n = 0
+  var n = v - 0
+  if (n !== n) n = 0
   return n.toFixed(2)
 }
 

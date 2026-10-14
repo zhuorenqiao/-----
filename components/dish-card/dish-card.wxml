@@ -1,11 +1,4 @@
-<wxs module="fmt">
-  function money(v) {
-    var n = Number(v)
-    if (isNaN(n)) n = 0
-    return n.toFixed(2)
-  }
-  module.exports = { money: money }
-</wxs>
+<wxs src="../../utils/money.wxs" module="fmt" />
 
 <view class="card {{layout === 'grid' ? 'card-grid' : 'card-list'}}" bindtap="onTap">
   <view class="thumb">

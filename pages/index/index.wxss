@@ -182,13 +182,9 @@
 
 /* ---------- 菜品网格 ---------- */
 .dish-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.dish-grid dish-card {
-  margin-bottom: 20rpx;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
 }
 
 /* ---------- 本地模式提示 ---------- */
