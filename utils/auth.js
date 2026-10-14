@@ -9,12 +9,15 @@ function mode() {
 
 function session() {
   const app = getApp()
-  return app.globalData.session || null
+  if (app && app.globalData) return app.globalData.session || null
+  // App 未就绪时回退到本地存储
+  return wx.getStorageSync('jcc.session') || null
 }
 
-// 启动时恢复会话
-function restoreSession() {
-  const app = getApp()
+// 启动时恢复会话（onLaunch 阶段 getApp() 未就绪，需传入 app 实例）
+function restoreSession(app) {
+  app = app || getApp()
+  if (!app || !app.globalData) return wx.getStorageSync('jcc.session') || null
   app.globalData.mode = mode()
   const saved = wx.getStorageSync('jcc.session')
   if (saved && saved.id) {

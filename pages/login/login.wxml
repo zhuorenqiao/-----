@@ -23,10 +23,15 @@
   </view>
 
   <view class="login-bottom">
-    <button class="login-btn" hover-class="btn-hover" bindtap="onLogin" disabled="{{loading}}">
+    <view
+      class="login-btn {{loading ? 'login-btn-disabled' : ''}}"
+      hover-class="btn-hover"
+      hover-stay-time="80"
+      bindtap="onLogin"
+    >
       <image class="wx-icon" src="/assets/icons/check.png" mode="aspectFit" />
-      <text>微信一键登录</text>
-    </button>
+      <text class="btn-text">微信一键登录</text>
+    </view>
     <view class="agreement">登录即表示已阅读并同意《用户协议》与《隐私政策》</view>
   </view>
 </view>

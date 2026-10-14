@@ -5,7 +5,9 @@ const TAB_CART_INDEX = 2
 
 function uid() {
   const app = getApp()
-  return app.globalData.session ? app.globalData.session.id : 'guest'
+  if (app && app.globalData && app.globalData.session) return app.globalData.session.id
+  const saved = wx.getStorageSync('jcc.session')
+  return (saved && saved.id) || 'guest'
 }
 
 function getCart() {

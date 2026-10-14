@@ -17,7 +17,9 @@ function isCloud() {
 
 function session() {
   const app = getApp()
-  return app.globalData.session || null
+  if (app && app.globalData) return app.globalData.session || null
+  // App 未就绪时回退到本地存储
+  return wx.getStorageSync('jcc.session') || null
 }
 
 function placeholder() {

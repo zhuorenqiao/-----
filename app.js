@@ -4,7 +4,8 @@ const auth = require('./utils/auth.js')
 App({
   onLaunch() {
     // 恢复本地会话（本地模式或云端模式通用）
-    auth.restoreSession()
+    // 注意：onLaunch 阶段 getApp() 可能尚未就绪，必须传 this
+    auth.restoreSession(this)
   },
   globalData: {
     session: null,   // 当前会话 { id, name, mode }

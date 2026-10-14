@@ -54,6 +54,9 @@
 .dish-side {
   flex: 1;
   height: 100%;
+  /* 给底部 cart-bar(110rpx) 留出空间 */
+  padding-bottom: 120rpx;
+  box-sizing: border-box;
 }
 
 .dish-wrap {

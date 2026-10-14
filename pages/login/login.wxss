@@ -1,9 +1,13 @@
 page {
   background: linear-gradient(180deg, #FBE3D3 0%, #F6F3EE 46%);
+  /* 固定 page 高度为实际视口，避免 100vh 在 iPad 等机型上偏大产生多余滚动 */
+  height: 100%;
 }
 
 .login-page {
-  min-height: 100vh;
+  position: relative;
+  /* 用 100% 代替 100vh，高度与实际视口一致 */
+  min-height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -79,7 +83,8 @@ page {
 
 .login-bottom {
   margin-top: auto;
-  padding: 0 60rpx 90rpx;
+  /* 保证按钮与上方特性卡片之间至少有这个间距 */
+  padding: 56rpx 60rpx 90rpx;
 }
 
 .login-btn {
@@ -90,17 +95,21 @@ page {
   color: #FFFFFF;
   font-size: 32rpx;
   font-weight: 600;
+  /* view 实现，flex 居中 */
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   box-shadow: 0 10rpx 24rpx rgba(232, 89, 12, 0.32);
 }
 
-.login-btn::after { border: none; }
+.btn-text {
+  white-space: nowrap;
+}
 
-.login-btn[disabled] {
+/* loading 时的禁用态（view 无 button 的 disabled 伪类，用类名控制） */
+.login-btn-disabled {
   background: #F3C3A6;
-  color: #FFFFFF;
   box-shadow: none;
 }
 
