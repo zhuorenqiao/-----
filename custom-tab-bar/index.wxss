@@ -5,9 +5,13 @@
   right: 0;
   bottom: 0;
   display: flex;
+  align-items: center;
+  /* 固定内容区高度 112rpx，与 cart-bar 的 bottom 偏移（112rpx + 安全区）严格对齐，避免机型取整产生缝隙 */
+  height: 112rpx;
   background: #FFFFFF;
   border-top: 1rpx solid #ECE7DD;
   padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: content-box;
   /* 低于 fly-ball(9999)、高于普通文档流内容；cart-bar(100) 需在其上方 */
   z-index: 90;
 }

@@ -15,14 +15,11 @@
           <view class="item-price">¥{{fmt.money(item.price)}}</view>
         </view>
         <view class="item-action">
-          <view class="delete-btn" bindtap="onDelete" data-id="{{item.id}}">
-            <image src="/assets/icons/trash.png" mode="aspectFit" />
-          </view>
-          <view class="qty-ctrl">
-            <view class="qty-btn" hover-class="qty-btn-hover" bindtap="onMinus" data-id="{{item.id}}">−</view>
-            <view class="qty-num">{{item.quantity}}</view>
-            <view class="qty-btn" hover-class="qty-btn-hover" bindtap="onPlus" data-id="{{item.id}}">+</view>
-          </view>
+          <stepper
+            value="{{item.quantity}}"
+            dish-id="{{item.id}}"
+            bind:change="onChange"
+          />
         </view>
       </view>
 

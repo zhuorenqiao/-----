@@ -72,38 +72,6 @@
   color: var(--text-sub);
 }
 
-/* 数量加减控件 */
-.qty-ctrl {
-  margin-top: 10rpx;
-  display: flex;
-  align-items: center;
-  border: 2rpx solid var(--line);
-  border-radius: 999rpx;
-  overflow: hidden;
-}
-
-.qty-btn {
-  width: 52rpx;
-  height: 44rpx;
-  line-height: 40rpx;
-  text-align: center;
-  font-size: 30rpx;
-  color: var(--text-main);
-}
-
-.qty-btn-hover {
-  background: var(--bg-wash);
-}
-
-.qty-num {
-  min-width: 52rpx;
-  height: 44rpx;
-  line-height: 44rpx;
-  text-align: center;
-  font-size: 24rpx;
-  color: var(--text-main);
-}
-
 .invalid-tip {
   margin-top: 20rpx;
   padding: 14rpx 20rpx;
