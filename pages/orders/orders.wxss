@@ -1,0 +1,157 @@
+.orders-page {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* ---------- 状态筛选 ---------- */
+.tabs {
+  display: flex;
+  background: #FFFFFF;
+  padding: 0 12rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 26rpx 0 22rpx;
+  font-size: 26rpx;
+  color: var(--text-sub);
+  position: relative;
+}
+
+.tab-active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.tab-active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 8rpx;
+  width: 44rpx;
+  height: 6rpx;
+  border-radius: 3rpx;
+  background: var(--primary);
+}
+
+/* ---------- 订单卡片 ---------- */
+.order-card {
+  margin-top: 20rpx;
+}
+
+.order-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18rpx;
+  border-bottom: 2rpx solid var(--line);
+}
+
+.order-no {
+  display: flex;
+  align-items: center;
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.o-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
+}
+
+.order-code {
+  margin-left: 12rpx;
+  color: var(--text-light);
+}
+
+.status-chip {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 6rpx;
+}
+
+.status-pending {
+  background: #FDF1E7;
+  color: var(--primary);
+}
+
+.status-completed {
+  background: #E9F7EE;
+  color: var(--green);
+}
+
+.status-cancelled {
+  background: #F2EFE9;
+  color: var(--text-sub);
+}
+
+.order-body {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.thumb-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 220rpx;
+  flex-shrink: 0;
+}
+
+.thumb {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 10rpx;
+  margin: 0 8rpx 8rpx 0;
+  background: #F4F0E9;
+}
+
+.order-main {
+  flex: 1;
+  min-width: 0;
+  margin-left: 12rpx;
+}
+
+.dish-names {
+  font-size: 26rpx;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.dish-count {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: var(--text-light);
+}
+
+.order-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2rpx solid var(--line);
+  padding-top: 18rpx;
+}
+
+.foot-total {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.foot-detail {
+  font-size: 24rpx;
+  color: var(--text-light);
+}
+
+.load-more, .list-end {
+  text-align: center;
+  padding: 28rpx 0;
+  font-size: 24rpx;
+  color: var(--text-light);
+}

@@ -1,0 +1,55 @@
+<wxs src="../../utils/money.wxs" module="fmt" />
+
+<view class="page checkout-page">
+  <view class="section" wx:if="{{items.length > 0}}">
+    <view class="section-title"><text class="t">菜品清单</text></view>
+    <view class="order-item" wx:for="{{items}}" wx:key="id">
+      <image class="item-img" src="{{item.image_url}}" mode="aspectFill" />
+      <view class="item-info">
+        <view class="item-name ellipsis">{{item.name}}</view>
+        <view class="item-sub">¥{{fmt.money(item.price)}} × {{item.quantity}}</view>
+      </view>
+      <view class="item-sum">¥{{fmt.money(item.price * item.quantity)}}</view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{items.length > 0}}">
+    <view class="section-title"><text class="t">备注</text></view>
+    <textarea
+      class="remark-input"
+      value="{{remark}}"
+      placeholder="口味偏好、忌口等要求（选填）"
+      maxlength="100"
+      bindinput="onRemarkInput"
+    />
+  </view>
+
+  <view class="section" wx:if="{{items.length > 0}}">
+    <view class="sum-row">
+      <text class="sum-label">菜品小计</text>
+      <text class="sum-value">¥{{totalText}}</text>
+    </view>
+    <view class="sum-row">
+      <text class="sum-label">支付方式</text>
+      <text class="sum-value pay-way">餐后到店支付</text>
+    </view>
+  </view>
+
+  <empty
+    wx:else
+    text="购物车是空的，先去挑选菜品吧"
+    action-text="去点餐"
+    bind:action="goMenu"
+  />
+
+  <view class="bottom-bar" wx:if="{{items.length > 0}}">
+    <view class="total-box">
+      <text class="total-label">合计</text>
+      <text class="total-price">¥{{totalText}}</text>
+    </view>
+    <view class="submit-btn" hover-class="btn-hover" bindtap="onSubmit">
+      <text wx:if="{{!submitting}}">提交订单</text>
+      <text wx:else>提交中…</text>
+    </view>
+  </view>
+</view>

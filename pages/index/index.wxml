@@ -1,0 +1,83 @@
+<wxs src="../../utils/money.wxs" module="fmt" />
+
+<view class="page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-content">
+      <view class="brand">
+        <image class="logo" src="/assets/icons/avatar-default.png" mode="aspectFit" />
+        <view class="brand-text">
+          <view class="name">家常菜餐厅</view>
+          <view class="slogan">现炒家常菜 · 好吃不贵</view>
+        </view>
+      </view>
+      <view class="header-info">
+        <view class="info-item">
+          <image class="i-icon" src="/assets/icons/clock.png" mode="aspectFit" />
+          <text>营业中 09:00-21:00</text>
+        </view>
+        <view class="info-item">
+          <image class="i-icon" src="/assets/icons/location.png" mode="aspectFit" />
+          <text>文华路 88 号（地铁口旁）</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日推荐 -->
+  <view class="section recommend" wx:if="{{topDish}}" bindtap="goDish" data-id="{{topDish.id}}">
+    <image class="rec-img" src="{{topDish.image_url}}" mode="aspectFill" />
+    <view class="rec-info">
+      <view class="rec-tag">今日推荐</view>
+      <view class="rec-name ellipsis">{{topDish.name}}</view>
+      <view class="rec-desc ellipsis2">{{topDish.description}}</view>
+      <view class="rec-bottom">
+        <view class="price">
+          <text class="sym">¥</text><text class="num">{{fmt.money(topDish.price)}}</text>
+        </view>
+        <view class="rec-btn">去看看</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 本店分类 -->
+  <view class="section">
+    <view class="section-title">
+      <text class="t">本店分类</text>
+      <text class="more" bindtap="goMenu">全部菜品</text>
+    </view>
+    <view class="cat-grid">
+      <view class="cat-item" wx:for="{{categories}}" wx:key="id" bindtap="goMenuCat" data-id="{{item.id}}">
+        <image class="cat-icon" src="{{item.icon}}" mode="aspectFit" />
+        <text class="cat-name ellipsis">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门推荐 -->
+  <view class="section" wx:if="{{featured.length > 0}}">
+    <view class="section-title">
+      <text class="t">热门推荐</text>
+      <text class="more" bindtap="goMenu">更多</text>
+    </view>
+    <view class="dish-grid">
+      <dish-card
+        wx:for="{{featured}}"
+        wx:key="id"
+        dish="{{item}}"
+        quantity="{{quantities[item.id] || 0}}"
+        layout="grid"
+        show-desc="{{false}}"
+        bind:tap="onDishTap"
+        bind:change="onDishChange"
+      />
+    </view>
+  </view>
+
+  <!-- 本地模式提示 -->
+  <view class="section local-tip" wx:if="{{mode === 'local'}}">
+    <text class="tip-text">当前为本地模式：菜单与订单数据保存在本机。开通云服务后可多端同步。</text>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>

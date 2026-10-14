@@ -1,0 +1,50 @@
+.stepper {
+  display: flex;
+  align-items: center;
+}
+
+.s-btn {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.s-btn-hover {
+  opacity: 0.85;
+}
+
+.s-minus {
+  background: #FFFFFF;
+  border: 2rpx solid var(--primary);
+}
+
+.s-icon {
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.s-num {
+  min-width: 56rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.stepper-compact .s-btn {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.stepper-compact .s-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.stepper-compact .s-num {
+  min-width: 48rpx;
+  font-size: 26rpx;
+}

@@ -1,0 +1,97 @@
+<wxs src="../../utils/money.wxs" module="fmt" />
+
+<view class="page admin-page">
+  <!-- 统计 -->
+  <view class="stats-row">
+    <view class="stat-card">
+      <text class="stat-num">{{stats.total}}</text>
+      <text class="stat-label">菜品总数</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num">{{stats.on}}</text>
+      <text class="stat-label">已上架</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num">{{stats.cats}}</text>
+      <text class="stat-label">分类数</text>
+    </view>
+  </view>
+
+  <!-- 云端模式快捷操作 -->
+  <view class="cloud-actions" wx:if="{{cloudMode}}">
+    <view class="cloud-btn" hover-class="btn-hover" bindtap="onInitMenu" wx:if="{{dishCount === 0}}">
+      <text>初始化示例菜单</text>
+    </view>
+    <view class="cloud-btn" hover-class="btn-hover" bindtap="onUploadSeedImages" wx:elif="{{hasSeedImages}}">
+      <text>上传示例图片到云端</text>
+    </view>
+  </view>
+
+  <!-- 分段切换 -->
+  <view class="seg-bar">
+    <view class="seg {{seg === 'dish' ? 'seg-active' : ''}}" bindtap="onSegChange" data-seg="dish">菜品</view>
+    <view class="seg {{seg === 'cat' ? 'seg-active' : ''}}" bindtap="onSegChange" data-seg="cat">分类</view>
+  </view>
+
+  <!-- 菜品管理 -->
+  <block wx:if="{{seg === 'dish'}}">
+    <view class="toolbar">
+      <text class="toolbar-title">菜品列表</text>
+      <view class="add-btn" hover-class="btn-hover" bindtap="onAddDish">
+        <image class="a-icon" src="/assets/icons/plus.png" mode="aspectFit" />
+        <text>新增菜品</text>
+      </view>
+    </view>
+
+    <view class="section admin-list" wx:if="{{dishes.length > 0}}">
+      <view class="admin-item" wx:for="{{dishes}}" wx:key="id">
+        <image class="a-thumb" src="{{item.image_url}}" mode="aspectFill" />
+        <view class="a-info">
+          <view class="a-name ellipsis">{{item.name}}</view>
+          <view class="a-meta">
+            <text class="a-cat">{{catNameMap[item.category_id] || '未分类'}}</text>
+            <text class="a-price">¥{{fmt.money(item.price)}}</text>
+          </view>
+        </view>
+        <view class="a-actions">
+          <switch color="#E8590C" checked="{{item.status === 'on'}}" bindchange="onToggleStatus" data-id="{{item.id}}" />
+          <view class="a-btns">
+            <view class="a-btn" bindtap="onEditDish" data-id="{{item.id}}">
+              <image src="/assets/icons/edit.png" mode="aspectFit" />
+            </view>
+            <view class="a-btn" bindtap="onDeleteDish" data-id="{{item.id}}">
+              <image src="/assets/icons/trash.png" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <empty wx:else text="还没有菜品，先新增或初始化吧" />
+  </block>
+
+  <!-- 分类管理 -->
+  <block wx:elif="{{seg === 'cat'}}">
+    <view class="toolbar">
+      <text class="toolbar-title">分类列表</text>
+      <view class="add-btn" hover-class="btn-hover" bindtap="onAddCategory">
+        <image class="a-icon" src="/assets/icons/plus.png" mode="aspectFit" />
+        <text>新增分类</text>
+      </view>
+    </view>
+
+    <view class="section admin-list" wx:if="{{categories.length > 0}}">
+      <view class="cat-row" wx:for="{{categories}}" wx:key="id">
+        <text class="c-name">{{item.name}}</text>
+        <view class="c-actions">
+          <view class="a-btn" bindtap="onEditCategory" data-id="{{item.id}}">
+            <image src="/assets/icons/edit.png" mode="aspectFit" />
+          </view>
+          <view class="a-btn" bindtap="onDeleteCategory" data-id="{{item.id}}">
+            <image src="/assets/icons/trash.png" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <empty wx:else text="还没有分类，先新增一个吧" />
+  </block>
+</view>

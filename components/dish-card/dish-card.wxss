@@ -1,0 +1,135 @@
+.card {
+  background: var(--bg-card);
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+/* ---------- 横排（点餐列表） ---------- */
+.card-list {
+  display: flex;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.card-list .thumb {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: #F4F0E9;
+}
+
+.card-list .info {
+  flex: 1;
+  min-width: 0;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-list .name {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.card-list .desc {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  margin-top: 6rpx;
+  min-height: 60rpx;
+}
+
+.card-list .sales {
+  font-size: 20rpx;
+  color: var(--text-light);
+  margin-top: 8rpx;
+}
+
+.card-list .bottom {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- 网格（首页推荐） ---------- */
+.card-grid {
+  width: 330rpx;
+  padding-bottom: 20rpx;
+}
+
+.card-grid .thumb {
+  width: 100%;
+  height: 330rpx;
+  position: relative;
+  background: #F4F0E9;
+}
+
+.card-grid .info {
+  padding: 16rpx 18rpx 0;
+}
+
+.card-grid .name {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.card-grid .sales {
+  font-size: 20rpx;
+  color: var(--text-light);
+  margin-top: 6rpx;
+}
+
+.card-grid .bottom {
+  margin-top: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- 通用 ---------- */
+.img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.badge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: var(--primary);
+  color: #fff;
+  font-size: 18rpx;
+  padding: 2rpx 12rpx;
+  border-radius: 0 0 12rpx 0;
+}
+
+.off-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-sub);
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price .sym {
+  font-size: 22rpx;
+}
+
+.price .num {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.card-grid .price .num {
+  font-size: 30rpx;
+}

@@ -1,0 +1,62 @@
+<view class="page dish-edit-page">
+  <!-- 图片 -->
+  <view class="section">
+    <view class="section-title"><text class="t">菜品图片</text></view>
+    <view class="image-picker" bindtap="onChooseImage">
+      <image wx:if="{{imagePreview}}" class="preview-img" src="{{imagePreview}}" mode="aspectFill" />
+      <view wx:else class="picker-placeholder">
+        <image class="picker-icon" src="/assets/icons/pic.png" mode="aspectFit" />
+        <text class="picker-text">点击上传图片</text>
+      </view>
+      <view wx:if="{{uploading}}" class="uploading-mask">上传中…</view>
+    </view>
+    <view class="image-tip">建议使用正方形图片，本地模式下保存在本机，云端模式下存入云端存储</view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="section form-card">
+    <view class="form-item">
+      <text class="label">名称</text>
+      <input class="input" value="{{form.name}}" placeholder="请输入菜品名称" maxlength="20" bindinput="onNameInput" />
+    </view>
+    <view class="form-item">
+      <text class="label">分类</text>
+      <picker class="picker" range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="onCategoryChange">
+        <view class="picker-value {{categoryIndex < 0 ? 'placeholder' : ''}}">
+          {{categories[categoryIndex].name || '请选择分类'}}
+        </view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="label">价格</text>
+      <input class="input" type="digit" value="{{form.price}}" placeholder="0.00" bindinput="onPriceInput" />
+    </view>
+    <view class="form-item">
+      <text class="label">排序</text>
+      <input class="input" type="number" value="{{form.sort}}" placeholder="数字越小越靠前" bindinput="onSortInput" />
+    </view>
+    <view class="form-item form-item-top">
+      <text class="label">描述</text>
+      <textarea class="textarea" value="{{form.description}}" placeholder="口味、食材等介绍（选填）" maxlength="60" bindinput="onDescInput" />
+    </view>
+  </view>
+
+  <!-- 开关 -->
+  <view class="section form-card">
+    <view class="form-item">
+      <text class="label">上架销售</text>
+      <switch color="#E8590C" checked="{{form.status === 'on'}}" bindchange="onStatusChange" />
+    </view>
+    <view class="form-item">
+      <text class="label">招牌推荐</text>
+      <switch color="#E8590C" checked="{{form.featured}}" bindchange="onFeaturedChange" />
+    </view>
+  </view>
+
+  <!-- 操作 -->
+  <view class="save-btn" hover-class="btn-hover" bindtap="onSave">
+    <text wx:if="{{!saving}}">保存</text>
+    <text wx:else>保存中…</text>
+  </view>
+  <view wx:if="{{isEdit}}" class="delete-btn" hover-class="btn-hover" bindtap="onDelete">删除菜品</view>
+</view>

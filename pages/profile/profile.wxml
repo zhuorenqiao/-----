@@ -1,0 +1,43 @@
+<view class="page profile-page">
+  <!-- 用户卡片 -->
+  <view class="user-card">
+    <image class="avatar" src="/assets/icons/avatar-default.png" mode="aspectFit" />
+    <view class="user-info">
+      <view class="user-name">{{user.name || '微信用户'}}</view>
+      <view class="user-sub">欢迎光临家常菜餐厅</view>
+    </view>
+    <view class="mode-badge {{mode === 'cloud' ? 'mode-cloud' : 'mode-local'}}">{{modeText}}</view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="section menu-list">
+    <view class="menu-row" bindtap="goOrders" hover-class="row-hover">
+      <image class="m-icon" src="/assets/icons/tab-orders.png" mode="aspectFit" />
+      <text class="m-label">我的订单</text>
+      <text wx:if="{{orderCount > 0}}" class="m-badge">{{orderCount > 99 ? '99+' : orderCount}}</text>
+      <image class="m-arrow" src="/assets/icons/arrow-right.png" mode="aspectFit" />
+    </view>
+    <view class="menu-row" bindtap="goAdmin" hover-class="row-hover">
+      <image class="m-icon" src="/assets/icons/edit.png" mode="aspectFit" />
+      <text class="m-label">菜品管理</text>
+      <text class="m-tip">上架 / 改价 / 传图</text>
+      <image class="m-arrow" src="/assets/icons/arrow-right.png" mode="aspectFit" />
+    </view>
+    <view class="menu-row" bindtap="onContact" hover-class="row-hover">
+      <image class="m-icon" src="/assets/icons/phone.png" mode="aspectFit" />
+      <text class="m-label">联系餐厅</text>
+      <image class="m-arrow" src="/assets/icons/arrow-right.png" mode="aspectFit" />
+    </view>
+  </view>
+
+  <!-- 说明 -->
+  <view class="section about-card">
+    <view class="about-title">家常菜餐厅</view>
+    <view class="about-text">
+      <text wx:if="{{mode === 'local'}}">当前为本地模式：菜品与订单数据保存在本机，图片保存在本地文件。在 utils/config.js 填入云服务配置后，可切换为云端数据库与云端存储。</text>
+      <text wx:else>当前为云端模式：菜品与订单数据保存在云端数据库，菜品图片保存在云端存储，多端同步。</text>
+    </view>
+  </view>
+
+  <view class="logout-btn" hover-class="btn-hover" bindtap="onLogout">退出登录</view>
+</view>

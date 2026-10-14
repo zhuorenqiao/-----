@@ -1,0 +1,59 @@
+<wxs src="../../utils/money.wxs" module="fmt" />
+
+<view class="page orders-page">
+  <!-- 状态筛选 -->
+  <view class="tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab {{activeTab === item.key ? 'tab-active' : ''}}"
+      bindtap="onTabTap"
+      data-key="{{item.key}}"
+    >
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view wx:if="{{orders.length > 0}}">
+    <view class="section order-card" wx:for="{{orders}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="order-head">
+        <view class="order-no">
+          <image class="o-icon" src="/assets/icons/clock.png" mode="aspectFit" />
+          <text>{{item.timeText}}</text>
+          <text class="order-code">No.{{item.orderNoText}}</text>
+        </view>
+        <text class="status-chip status-{{item.status}}">{{item.statusText}}</text>
+      </view>
+
+      <view class="order-body">
+        <view class="thumb-row">
+          <image class="thumb" wx:for="{{item.items}}" wx:key="id" wx:for-item="dish" src="{{dish.image_url}}" mode="aspectFill" />
+        </view>
+        <view class="order-main">
+          <view class="dish-names ellipsis2">{{item.nameText}}</view>
+          <view class="dish-count">共 {{item.dishCount}} 件</view>
+        </view>
+      </view>
+
+      <view class="order-foot">
+        <text class="foot-total">合计 ¥{{item.totalText}}</text>
+        <text class="foot-detail">查看详情</text>
+      </view>
+    </view>
+
+    <view class="load-more" wx:if="{{hasMore}}">
+      <text>{{loading ? '加载中…' : '点击加载更多'}}</text>
+    </view>
+    <view class="list-end" wx:elif="{{orders.length > 0}}">
+      <text>— 没有更多订单了 —</text>
+    </view>
+  </view>
+
+  <empty
+    wx:else
+    text="还没有订单记录"
+    action-text="去点餐"
+    bind:action="goMenu"
+  />
+</view>

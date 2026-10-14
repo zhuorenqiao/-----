@@ -1,0 +1,32 @@
+<view class="page login-page">
+  <view class="login-bg"></view>
+
+  <view class="brand-block">
+    <image class="brand-logo" src="/assets/icons/avatar-default.png" mode="aspectFit" />
+    <view class="brand-name">家常菜餐厅</view>
+    <view class="brand-slogan">现炒家常菜 · 好吃不贵</view>
+  </view>
+
+  <view class="feature-block">
+    <view class="feature-item">
+      <image class="f-icon" src="/assets/icons/cat-meat.png" mode="aspectFit" />
+      <text class="f-text">明厨亮灶</text>
+    </view>
+    <view class="feature-item">
+      <image class="f-icon" src="/assets/icons/cat-soup.png" mode="aspectFit" />
+      <text class="f-text">每日现熬</text>
+    </view>
+    <view class="feature-item">
+      <image class="f-icon" src="/assets/icons/cat-staple.png" mode="aspectFit" />
+      <text class="f-text">现点现炒</text>
+    </view>
+  </view>
+
+  <view class="login-bottom">
+    <button class="login-btn" hover-class="btn-hover" bindtap="onLogin" disabled="{{loading}}">
+      <image class="wx-icon" src="/assets/icons/check.png" mode="aspectFit" />
+      <text>微信一键登录</text>
+    </button>
+    <view class="agreement">登录即表示已阅读并同意《用户协议》与《隐私政策》</view>
+  </view>
+</view>

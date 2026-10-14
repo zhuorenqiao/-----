@@ -1,0 +1,121 @@
+page {
+  background: linear-gradient(180deg, #FBE3D3 0%, #F6F3EE 46%);
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 620rpx;
+  background: linear-gradient(160deg, #F0854A 0%, #E8590C 62%, #D14A08 100%);
+  border-radius: 0 0 60rpx 60rpx;
+}
+
+.brand-block {
+  position: relative;
+  padding: 150rpx 0 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand-logo {
+  width: 148rpx;
+  height: 148rpx;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 12rpx 32rpx rgba(160, 70, 10, 0.28);
+  margin-bottom: 28rpx;
+}
+
+.brand-name {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 4rpx;
+}
+
+.brand-slogan {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 2rpx;
+}
+
+.feature-block {
+  position: relative;
+  margin: 20rpx 48rpx 0;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 36rpx 20rpx;
+  display: flex;
+  box-shadow: 0 10rpx 30rpx rgba(43, 38, 32, 0.06);
+}
+
+.feature-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.f-icon {
+  width: 72rpx;
+  height: 72rpx;
+  margin-bottom: 12rpx;
+}
+
+.f-text {
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.login-bottom {
+  margin-top: auto;
+  padding: 0 60rpx 90rpx;
+}
+
+.login-btn {
+  width: 100%;
+  height: 92rpx;
+  border-radius: 999rpx;
+  background: var(--primary);
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 24rpx rgba(232, 89, 12, 0.32);
+}
+
+.login-btn::after { border: none; }
+
+.login-btn[disabled] {
+  background: #F3C3A6;
+  color: #FFFFFF;
+  box-shadow: none;
+}
+
+.btn-hover { opacity: 0.92; }
+
+.wx-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 14rpx;
+  filter: brightness(0) invert(1);
+}
+
+.agreement {
+  margin-top: 28rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--text-light);
+}

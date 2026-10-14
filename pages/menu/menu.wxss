@@ -1,0 +1,74 @@
+.menu-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.menu-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ---------- 左侧分类 ---------- */
+.cat-side {
+  width: 176rpx;
+  height: 100%;
+  background: #F1EDE5;
+}
+
+.cat-item {
+  padding: 36rpx 16rpx;
+  text-align: center;
+  position: relative;
+}
+
+.cat-item .cat-name {
+  font-size: 26rpx;
+  color: var(--text-sub);
+}
+
+.cat-active {
+  background: var(--bg-card);
+}
+
+.cat-active .cat-name {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.cat-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6rpx;
+  height: 36rpx;
+  border-radius: 0 4rpx 4rpx 0;
+  background: var(--primary);
+}
+
+/* ---------- 右侧菜品 ---------- */
+.dish-side {
+  flex: 1;
+  height: 100%;
+}
+
+.dish-wrap {
+  padding: 20rpx 20rpx 160rpx;
+}
+
+.cat-title {
+  font-size: 26rpx;
+  color: var(--text-light);
+  padding: 8rpx 4rpx 16rpx;
+}
+
+.no-dish {
+  padding: 120rpx 0;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 26rpx;
+}

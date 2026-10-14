@@ -1,0 +1,30 @@
+.empty-box {
+  padding: 100rpx 0 120rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-img {
+  width: 260rpx;
+  height: 260rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: var(--text-light);
+}
+
+.empty-action {
+  margin-top: 28rpx;
+  padding: 12rpx 44rpx;
+  border-radius: 999rpx;
+  background: var(--primary-bg);
+  color: var(--primary);
+  font-size: 26rpx;
+}
+
+.action-hover {
+  opacity: 0.85;
+}

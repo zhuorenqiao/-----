@@ -1,0 +1,31 @@
+<wxs module="fmt">
+  function money(v) {
+    var n = Number(v)
+    if (isNaN(n)) n = 0
+    return n.toFixed(2)
+  }
+  module.exports = { money: money }
+</wxs>
+
+<view class="card {{layout === 'grid' ? 'card-grid' : 'card-list'}}" bindtap="onTap">
+  <view class="thumb">
+    <image class="img" src="{{dish.image_url}}" mode="aspectFill" binderror="onImageError" />
+    <view wx:if="{{dish.featured && dish.status === 'on'}}" class="badge">招牌</view>
+    <view wx:if="{{dish.status !== 'on'}}" class="off-mask">已下架</view>
+  </view>
+  <view class="info">
+    <view class="name-row">
+      <text class="name ellipsis">{{dish.name}}</text>
+    </view>
+    <view wx:if="{{showDesc && dish.description}}" class="desc ellipsis2">{{dish.description}}</view>
+    <view class="sales">月售 {{dish.sales || 0}}</view>
+    <view class="bottom">
+      <view class="price">
+        <text class="sym">¥</text><text class="num">{{fmt.money(dish.price)}}</text>
+      </view>
+      <view class="action" catchtap="noop">
+        <stepper value="{{quantity}}" dish-id="{{dish.id}}" compact="{{layout === 'grid'}}" bind:change="onChange" />
+      </view>
+    </view>
+  </view>
+</view>

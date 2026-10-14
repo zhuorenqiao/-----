@@ -1,0 +1,9 @@
+<view class="stepper {{compact ? 'stepper-compact' : ''}}">
+  <view wx:if="{{value > 0}}" class="s-btn s-minus" hover-class="s-btn-hover" bindtap="onMinus">
+    <image src="/assets/icons/minus.png" class="s-icon" mode="aspectFit" />
+  </view>
+  <text wx:if="{{value > 0}}" class="s-num">{{value}}</text>
+  <view class="s-btn s-plus" hover-class="s-btn-hover" bindtap="onPlus">
+    <image src="/assets/icons/plus.png" class="s-icon" mode="aspectFit" />
+  </view>
+</view>

@@ -1,0 +1,153 @@
+.profile-page {
+  min-height: 100vh;
+  padding-bottom: 60rpx;
+}
+
+/* ---------- 用户卡片 ---------- */
+.user-card {
+  margin: 24rpx;
+  background: linear-gradient(160deg, #F0854A 0%, #E8590C 75%);
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-card::after {
+  content: '';
+  position: absolute;
+  right: -60rpx;
+  bottom: -90rpx;
+  width: 220rpx;
+  height: 220rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.avatar {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+.user-info {
+  flex: 1;
+  margin-left: 24rpx;
+}
+
+.user-name {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.user-sub {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.mode-badge {
+  font-size: 20rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+/* ---------- 功能列表 ---------- */
+.menu-list {
+  padding: 8rpx 28rpx;
+}
+
+.menu-row {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 2rpx solid var(--line);
+}
+
+.menu-row:last-child {
+  border-bottom: none;
+}
+
+.row-hover {
+  background: #FAF7F2;
+}
+
+.m-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+.m-label {
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.m-tip {
+  margin-left: auto;
+  margin-right: 12rpx;
+  font-size: 22rpx;
+  color: var(--text-light);
+}
+
+.m-badge {
+  margin-left: auto;
+  margin-right: 12rpx;
+  min-width: 36rpx;
+  height: 36rpx;
+  padding: 0 8rpx;
+  border-radius: 18rpx;
+  background: var(--primary);
+  color: #fff;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.m-arrow {
+  width: 28rpx;
+  height: 28rpx;
+}
+
+/* ---------- 说明卡片 ---------- */
+.about-card {
+  padding: 24rpx 28rpx;
+}
+
+.about-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.about-text {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  line-height: 1.7;
+}
+
+/* ---------- 退出登录 ---------- */
+.logout-btn {
+  margin: 40rpx 24rpx 0;
+  height: 88rpx;
+  border-radius: 999rpx;
+  background: #FFFFFF;
+  color: var(--red);
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-hover {
+  opacity: 0.85;
+}

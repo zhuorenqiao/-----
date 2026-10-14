@@ -1,0 +1,131 @@
+.dish-edit-page {
+  min-height: 100vh;
+  padding-bottom: 60rpx;
+}
+
+/* ---------- 图片选择 ---------- */
+.image-picker {
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  position: relative;
+  background: #FAF7F2;
+  border: 2rpx dashed #D8D0C2;
+}
+
+.preview-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.picker-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.picker-icon {
+  width: 56rpx;
+  height: 56rpx;
+  margin-bottom: 10rpx;
+}
+
+.picker-text {
+  font-size: 22rpx;
+  color: var(--text-light);
+}
+
+.uploading-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  color: #FFFFFF;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-tip {
+  margin-top: 16rpx;
+  font-size: 22rpx;
+  color: var(--text-light);
+}
+
+/* ---------- 表单 ---------- */
+.form-card {
+  padding: 8rpx 28rpx;
+}
+
+.form-item-top {
+  align-items: flex-start;
+}
+
+.input {
+  flex: 1;
+  height: 60rpx;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+.textarea {
+  flex: 1;
+  height: 120rpx;
+  font-size: 26rpx;
+  line-height: 1.6;
+  text-align: right;
+  padding: 8rpx 0;
+}
+
+.picker {
+  flex: 1;
+}
+
+.picker-value {
+  text-align: right;
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.picker-value.placeholder {
+  color: var(--text-light);
+}
+
+/* ---------- 操作按钮 ---------- */
+.save-btn {
+  margin: 32rpx 24rpx 0;
+  height: 88rpx;
+  border-radius: 999rpx;
+  background: var(--primary);
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn {
+  margin: 24rpx 24rpx 0;
+  height: 88rpx;
+  border-radius: 999rpx;
+  background: #FFFFFF;
+  color: var(--red);
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-hover {
+  opacity: 0.9;
+}

@@ -1,0 +1,203 @@
+.bottom-space {
+  height: 40rpx;
+}
+
+/* ---------- 头部 ---------- */
+.header {
+  position: relative;
+  background: linear-gradient(160deg, #F0854A 0%, #E8590C 70%, #D14A08 100%);
+  border-radius: 0 0 48rpx 48rpx;
+  padding: 32rpx 32rpx 76rpx;
+  overflow: hidden;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  right: -80rpx;
+  top: -80rpx;
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  right: 40rpx;
+  bottom: -120rpx;
+  width: 220rpx;
+  height: 220rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+.brand-text {
+  margin-left: 20rpx;
+}
+
+.brand-text .name {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 2rpx;
+}
+
+.brand-text .slogan {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.header-info {
+  margin-top: 28rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999rpx;
+  padding: 8rpx 20rpx;
+  margin-right: 16rpx;
+}
+
+.info-item text {
+  font-size: 22rpx;
+  color: #FFFFFF;
+}
+
+.i-icon {
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 8rpx;
+  filter: brightness(0) invert(1);
+}
+
+/* ---------- 今日推荐 ---------- */
+.recommend {
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+  margin-top: -56rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.rec-img {
+  width: 240rpx;
+  height: 240rpx;
+  flex-shrink: 0;
+}
+
+.rec-info {
+  flex: 1;
+  min-width: 0;
+  padding: 24rpx 24rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.rec-tag {
+  align-self: flex-start;
+  font-size: 20rpx;
+  color: var(--primary);
+  background: var(--primary-bg);
+  border-radius: 6rpx;
+  padding: 2rpx 12rpx;
+  margin-bottom: 10rpx;
+}
+
+.rec-name {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.rec-desc {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  margin-top: 8rpx;
+}
+
+.rec-bottom {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rec-btn {
+  font-size: 24rpx;
+  color: #FFFFFF;
+  background: var(--primary);
+  border-radius: 999rpx;
+  padding: 8rpx 24rpx;
+}
+
+/* ---------- 分类网格 ---------- */
+.cat-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cat-item {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rpx 0;
+}
+
+.cat-icon {
+  width: 88rpx;
+  height: 88rpx;
+  margin-bottom: 10rpx;
+}
+
+.cat-name {
+  font-size: 24rpx;
+  color: var(--text-main);
+  max-width: 100%;
+}
+
+/* ---------- 菜品网格 ---------- */
+.dish-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.dish-grid dish-card {
+  margin-bottom: 20rpx;
+}
+
+/* ---------- 本地模式提示 ---------- */
+.local-tip {
+  padding: 20rpx 24rpx;
+}
+
+.tip-text {
+  font-size: 22rpx;
+  color: var(--text-light);
+  line-height: 1.6;
+}
