@@ -2,6 +2,7 @@
 const auth = require('../../utils/auth')
 const store = require('../../utils/store')
 const cart = require('../../utils/cart')
+const flyUtil = require('../../utils/fly')
 
 Page({
   data: {
@@ -114,6 +115,8 @@ Page({
     const detail = e.detail || {}
     const dish = this.data.dishes.find(d => String(d.id) === String(detail.dishId))
     if (!dish) return
+    const isNewAdd = detail.value > 0 &&
+      !cart.getCart().find(x => String(x.id) === String(dish.id))
     if (detail.value <= 0) {
       cart.remove(dish.id)
     } else {
@@ -125,6 +128,28 @@ Page({
       }
     }
     this.refreshQuantities()
+    // 加购时从点击位置抛物线飞入购物车（步进器的“+”按钮会带触点坐标）
+    if (isNewAdd && detail.x != null && detail.y != null && !this.flying) {
+      this.playFlyToCart(detail, dish)
+    }
+  },
+
+  async playFlyToCart(detail, dish) {
+    this.flying = true
+    const flyBall = this.selectComponent('#flyBall')
+    if (!flyBall) {
+      this.flying = false
+      return
+    }
+    const targetRect = await flyUtil.resolveCartTarget(this)
+    await flyBall.fly({
+      startX: detail.x,
+      startY: detail.y,
+      targetRect: targetRect,
+      image: detail.image || dish.image_url
+    })
+    flyUtil.bumpCartIcon(this)
+    this.flying = false
   },
 
   onCartTap() {

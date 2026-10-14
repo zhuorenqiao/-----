@@ -8,7 +8,8 @@
   background: #FFFFFF;
   border-top: 1rpx solid #ECE7DD;
   padding-bottom: env(safe-area-inset-bottom);
-  z-index: 1000;
+  /* 低于 fly-ball(9999)、高于普通文档流内容；cart-bar(100) 需在其上方 */
+  z-index: 90;
 }
 
 .tab-item {
@@ -34,6 +35,17 @@
   height: 48rpx;
 }
 
+/* 飞入动画落袋时的弹跳反馈 */
+.icon-bump {
+  animation: icon-bump 0.5s ease;
+}
+
+@keyframes icon-bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
 .tab-badge {
   position: absolute;
   top: -10rpx;
@@ -42,7 +54,7 @@
   height: 30rpx;
   padding: 0 8rpx;
   border-radius: 15rpx;
-  background: #C0432F;
+  background: #E5484D;
   color: #FFFFFF;
   font-size: 18rpx;
   line-height: 30rpx;

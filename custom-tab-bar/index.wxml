@@ -7,7 +7,7 @@
     bindtap="switchTab"
     data-path="{{item.path}}"
   >
-    <view class="icon-wrap">
+    <view class="icon-wrap {{index === 2 && bump ? 'icon-bump' : ''}}">
       <image
         class="tab-icon"
         src="{{selected === index ? item.activeIcon : item.icon}}"

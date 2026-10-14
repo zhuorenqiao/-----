@@ -1,5 +1,6 @@
 .bottom-space {
-  height: 40rpx;
+  /* 预留自定义 tabBar 高度 + 底部安全区，避免尾部内容被遮挡 */
+  height: calc(120rpx + env(safe-area-inset-bottom));
 }
 
 /* ---------- 头部：留白 + 衬线字标 ---------- */

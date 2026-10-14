@@ -27,7 +27,7 @@
 
   <!-- 底部操作栏 -->
   <view class="action-bar">
-    <view class="cart-entry" bindtap="onCartTap">
+    <view class="cart-entry {{cartBump ? 'cart-bump' : ''}}" bindtap="onCartTap">
       <image class="cart-icon" src="/assets/icons/cart-small.png" mode="aspectFit" />
       <view wx:if="{{quantity > 0}}" class="cart-badge">{{quantity}}</view>
     </view>
@@ -36,4 +36,7 @@
       <view class="btn-buy" hover-class="btn-hover" bindtap="onBuyNow">立即购买</view>
     </view>
   </view>
+
+  <!-- 抛物线飞入购物车动画 -->
+  <fly-ball id="flyBall" />
 </view>

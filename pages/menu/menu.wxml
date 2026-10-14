@@ -38,10 +38,14 @@
   <!-- 底部购物车栏 -->
   <cart-bar
     wx:if="{{cartCount > 0}}"
+    id="cartBar"
     count="{{cartCount}}"
     total="{{cartTotal}}"
     button-text="去结算"
     bind:cart="onCartTap"
     bind:checkout="onCheckout"
   />
+
+  <!-- 抛物线飞入购物车动画 -->
+  <fly-ball id="flyBall" />
 </view>

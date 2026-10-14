@@ -2,6 +2,7 @@
   "navigationBarTitleText": "点餐",
   "usingComponents": {
     "dish-card": "/components/dish-card/dish-card",
-    "cart-bar": "/components/cart-bar/cart-bar"
+    "cart-bar": "/components/cart-bar/cart-bar",
+    "fly-ball": "/components/fly-ball/fly-ball"
   }
 }

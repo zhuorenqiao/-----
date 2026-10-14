@@ -4,6 +4,7 @@ Component({
   data: {
     selected: 0,
     cartCount: 0,
+    bump: false,
     color: '#B9B1A4',
     selectedColor: '#B4531F',
     list: [
@@ -20,6 +21,23 @@ Component({
     }
   },
   methods: {
+    // 供飞入购物车动画查询落点（第三个 tab：购物车图标的位置）
+    getCartIconRect() {
+      return new Promise((resolve) => {
+        this.createSelectorQuery()
+          .selectAll('.icon-wrap')
+          .boundingClientRect()
+          .exec((res) => {
+            const list = (res && res[0]) || []
+            resolve(list[2] || null)
+          })
+      })
+    },
+    // 购物车图标弹跳（飞入动画落袋时的反馈）
+    bumpCartIcon() {
+      this.setData({ bump: true })
+      setTimeout(() => this.setData({ bump: false }), 500)
+    },
     switchTab(e) {
       const { path } = e.currentTarget.dataset
       wx.switchTab({ url: '/' + path })

@@ -1,6 +1,6 @@
 <view class="cart-bar">
   <view class="bar-left" bindtap="onCartTap">
-    <view wx:if="{{showCart}}" class="cart-icon-wrap">
+    <view wx:if="{{showCart}}" class="cart-icon-wrap {{bump ? 'icon-bump' : ''}}">
       <image class="cart-icon" src="/assets/icons/cart-small.png" mode="aspectFit" />
       <view wx:if="{{count > 0}}" class="badge">{{count > 99 ? '99+' : count}}</view>
     </view>

@@ -1,0 +1,7 @@
+<view wx:if="{{show}}" class="fly-ball-wrap" style="left:{{x}}px;top:{{y}}px;">
+  <view class="fly-ball-mid" style="transform:{{mid}};">
+    <view class="fly-ball-inner" style="transform:{{inner}};">
+      <image class="fly-ball" src="{{image}}" mode="aspectFill" />
+    </view>
+  </view>
+</view>

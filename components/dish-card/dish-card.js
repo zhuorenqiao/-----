@@ -14,7 +14,12 @@ Component({
       this.triggerEvent('tap', { dish: this.data.dish })
     },
     onChange(e) {
-      this.triggerEvent('change', e.detail)
+      const detail = Object.assign({}, e.detail)
+      // 带触点坐标的是加购操作，附加商品图供飞入动画展示
+      if (detail.x != null && detail.y != null) {
+        detail.image = this.data.dish.image_url || store.placeholder()
+      }
+      this.triggerEvent('change', detail)
     },
     onImageError() {
       this.setData({ 'dish.image_url': store.placeholder() })

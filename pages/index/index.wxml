@@ -80,4 +80,7 @@
   </view>
 
   <view class="bottom-space"></view>
+
+  <!-- 抛物线飞入购物车动画 -->
+  <fly-ball id="flyBall" />
 </view>

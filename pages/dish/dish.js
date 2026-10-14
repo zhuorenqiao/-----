@@ -2,12 +2,14 @@
 const auth = require('../../utils/auth')
 const store = require('../../utils/store')
 const cart = require('../../utils/cart')
+const flyUtil = require('../../utils/fly')
 
 Page({
   data: {
     dish: null,
     categoryName: '',
-    quantity: 0
+    quantity: 0,
+    cartBump: false
   },
 
   onLoad(options) {
@@ -58,15 +60,46 @@ Page({
     this.refreshQuantity()
   },
 
-  onAddCart() {
+  async onAddCart() {
     if (!this.data.dish) return
     if (this.data.dish.status !== 'on') {
       wx.showToast({ title: '该菜品已下架', icon: 'none' })
       return
     }
+    if (this.flying) return
+    this.flying = true
     cart.add(this.data.dish, 1)
+
+    // 从头图中心（滚出视口时退化为按钮中心）抛物线飞入底部购物车图标
+    const flyBall = this.selectComponent('#flyBall')
+    const [hero, btn, entry] = await Promise.all([
+      flyUtil.getRect('.hero-img'),
+      flyUtil.getRect('.btn-add'),
+      flyUtil.getRect('.cart-entry')
+    ])
+    if (flyBall && entry) {
+      const win = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync()
+      let start = hero
+      if (!start || start.top < 0 || start.bottom > win.windowHeight) start = btn
+      if (start) {
+        const c = flyUtil.centerOf(start)
+        await flyBall.fly({
+          startX: c.x,
+          startY: c.y,
+          targetRect: entry,
+          image: this.data.dish.image_url
+        })
+      }
+    }
+    this.flyDone()
+  },
+
+  flyDone() {
+    this.flying = false
     this.refreshQuantity()
+    this.setData({ cartBump: true })
     wx.showToast({ title: '已加入购物车', icon: 'success' })
+    setTimeout(() => this.setData({ cartBump: false }), 450)
   },
 
   onBuyNow() {

@@ -20,14 +20,22 @@ page {
   --green: #4E7A58;
   --red: #C0432F;
 
-  /* 展示字体：衬线，用于标题与价格 */
-  --font-display: 'Microsoft YaHei', 'Songti SC', 'STSong', 'STZhongsong', 'SimSun', serif;
+  /* 展示字体：与正文同一字体栈，保证没有微软雅黑的设备上标题与正文视觉统一 */
+  --font-display: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', -apple-system, BlinkMacSystemFont, sans-serif;
 
   background: var(--bg-page);
   color: var(--text-main);
   font-size: 28rpx;
   line-height: 1.5;
-  font-family: 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 表单类内置组件不继承 page 字体，显式统一 */
+button,
+input,
+textarea,
+picker {
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* ---------- 通用容器 ---------- */

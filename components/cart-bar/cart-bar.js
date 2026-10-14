@@ -7,7 +7,8 @@ Component({
     showCart: { type: Boolean, value: true }
   },
   data: {
-    totalText: '0.00'
+    totalText: '0.00',
+    bump: false
   },
   observers: {
     'total': function (total) {
@@ -16,6 +17,20 @@ Component({
     }
   },
   methods: {
+    // 供飞入购物车动画查询落点（购物车图标的位置）
+    getCartIconRect() {
+      return new Promise((resolve) => {
+        this.createSelectorQuery()
+          .select('.cart-icon-wrap')
+          .boundingClientRect()
+          .exec((res) => resolve((res && res[0]) || null))
+      })
+    },
+    // 购物车图标弹跳（飞入动画落袋时的反馈）
+    bumpCartIcon() {
+      this.setData({ bump: true })
+      setTimeout(() => this.setData({ bump: false }), 500)
+    },
     onCartTap() {
       this.triggerEvent('cart')
     },

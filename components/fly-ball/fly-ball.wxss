@@ -1,0 +1,26 @@
+.fly-ball-wrap {
+  position: fixed;
+  /* 高于所有层级（自定义 tabBar 为 1000、cart-bar 为 100），保证飞行小球始终在最顶部 */
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* 外层：线性位移（X 全程 + Y 的线性分量），叠加内层拱顶后即为抛物线 */
+.fly-ball-mid {
+  transition: transform 0.55s linear;
+}
+
+/* 内层：对称缓动上抛（近似 -4h·t(1-t) 的抛物线拱顶分量） */
+.fly-ball-inner {
+  transition: transform 0.55s cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.fly-ball {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  border: 4rpx solid #FFFFFF;
+  background: #F4F0E9;
+  box-shadow: 0 8rpx 24rpx rgba(43, 38, 32, 0.25);
+  transform: translate(-50%, -50%);
+}

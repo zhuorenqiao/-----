@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "菜品详情",
   "usingComponents": {
-    "stepper": "/components/stepper/stepper"
+    "stepper": "/components/stepper/stepper",
+    "fly-ball": "/components/fly-ball/fly-ball"
   }
 }

@@ -2,6 +2,7 @@
 const auth = require('../../utils/auth')
 const store = require('../../utils/store')
 const cart = require('../../utils/cart')
+const flyUtil = require('../../utils/fly')
 
 const CAT_ICONS = {
   '荤菜热炒': '/assets/icons/cat-meat.png',
@@ -69,7 +70,31 @@ Page({
   // 购物车数量变更（来自菜品卡片步进器）
   onDishChange(e) {
     const detail = e.detail || {}
+    const isNewAdd = detail.value > 0 &&
+      !cart.getCart().find(x => String(x.id) === String(detail.dishId))
     this.applyCartChange(detail.dishId, detail.value)
+    // 加购时从点击位置抛物线飞入 tabBar 购物车图标（步进器的“+”按钮会带触点坐标）
+    if (isNewAdd && detail.x != null && detail.y != null && !this.flying) {
+      this.playFlyToCart(detail)
+    }
+  },
+
+  async playFlyToCart(detail) {
+    this.flying = true
+    const flyBall = this.selectComponent('#flyBall')
+    if (!flyBall) {
+      this.flying = false
+      return
+    }
+    const targetRect = await flyUtil.resolveCartTarget(this)
+    await flyBall.fly({
+      startX: detail.x,
+      startY: detail.y,
+      targetRect: targetRect,
+      image: detail.image
+    })
+    flyUtil.bumpCartIcon(this)
+    this.flying = false
   },
 
   applyCartChange(dishId, value) {

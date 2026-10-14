@@ -139,7 +139,7 @@
   height: 32rpx;
   padding: 0 8rpx;
   border-radius: 16rpx;
-  background: var(--red);
+  background: #E5484D;
   color: #fff;
   font-size: 20rpx;
   display: flex;
@@ -177,4 +177,15 @@
 
 .btn-hover {
   opacity: 0.9;
+}
+
+/* 落袋后购物车图标的弹跳反馈 */
+.cart-bump {
+  animation: cart-bump 0.45s ease;
+}
+
+@keyframes cart-bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
 }
