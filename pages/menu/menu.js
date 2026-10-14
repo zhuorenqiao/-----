@@ -21,6 +21,9 @@ Page({
   },
 
   onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 1 })
+    }
     if (!auth.requireLogin()) return
     cart.refreshBadge()
     this.loadData()
@@ -34,9 +37,12 @@ Page({
       return
     }
     let active = this.data.activeCategory
-    if (this.pendingCategory) {
-      active = this.pendingCategory
+    // 接收首页「本店分类」跳转指定的分类（switchTab 不支持带参数，走 globalData）
+    const app = getApp()
+    if (this.pendingCategory || app.globalData.pendingCategory) {
+      active = this.pendingCategory || app.globalData.pendingCategory
       this.pendingCategory = ''
+      app.globalData.pendingCategory = ''
     }
     const found = cats.data.find(c => String(c.id) === String(active))
     const target = found || cats.data[0]

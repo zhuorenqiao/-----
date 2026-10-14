@@ -1,6 +1,6 @@
 .card {
   background: var(--bg-card);
-  border-radius: 20rpx;
+  border-radius: 16rpx;
   overflow: hidden;
 }
 
@@ -14,11 +14,11 @@
 .card-list .thumb {
   width: 180rpx;
   height: 180rpx;
-  border-radius: 16rpx;
+  border-radius: 12rpx;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
-  background: #F4F0E9;
+  background: var(--bg-wash);
 }
 
 .card-list .info {
@@ -64,7 +64,7 @@
   width: 100%;
   height: 330rpx;
   position: relative;
-  background: #F4F0E9;
+  background: var(--bg-wash);
 }
 
 .card-grid .info {
@@ -100,7 +100,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  background: var(--primary);
+  background: var(--accent);
   color: #fff;
   font-size: 18rpx;
   padding: 2rpx 12rpx;
@@ -128,6 +128,12 @@
 .price .num {
   font-size: 34rpx;
   font-weight: 600;
+  font-family: var(--font-display);
+}
+
+.card-grid .name {
+  font-family: var(--font-display);
+  letter-spacing: 1rpx;
 }
 
 .card-grid .price .num {

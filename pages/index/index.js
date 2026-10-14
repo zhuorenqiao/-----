@@ -21,6 +21,9 @@ Page({
   },
 
   onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 0 })
+    }
     if (!auth.requireLogin()) return
     cart.refreshBadge()
     this.refreshQuantities()
@@ -107,6 +110,8 @@ Page({
 
   goMenuCat(e) {
     const id = e.currentTarget.dataset.id
-    wx.switchTab({ url: '/pages/menu/menu?category=' + (id || '') })
+    // wx.switchTab 不支持携带参数，通过 globalData 传给点餐页
+    getApp().globalData.pendingCategory = id || ''
+    wx.switchTab({ url: '/pages/menu/menu' })
   }
 })

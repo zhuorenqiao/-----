@@ -19,12 +19,22 @@
 
 .s-minus {
   background: #FFFFFF;
-  border: 2rpx solid var(--primary);
+  border: 2rpx solid var(--line);
 }
 
 .s-icon {
   width: 28rpx;
   height: 28rpx;
+}
+
+/* 图标素材为橙色，通过滤镜统一为墨/白 */
+.s-plus .s-icon {
+  filter: brightness(0) invert(1);
+}
+
+.s-minus .s-icon {
+  filter: brightness(0);
+  opacity: 0.55;
 }
 
 .s-num {

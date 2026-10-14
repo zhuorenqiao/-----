@@ -177,8 +177,8 @@
 }
 
 .a-btn {
-  width: 48rpx;
-  height: 48rpx;
+  width: 76rpx;
+  height: 76rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -186,8 +186,8 @@
 }
 
 .a-btn image {
-  width: 36rpx;
-  height: 36rpx;
+  width: 60rpx;
+  height: 60rpx;
 }
 
 /* ---------- 分类行 ---------- */
@@ -209,4 +209,5 @@
 
 .c-actions {
   display: flex;
+  align-items: center;
 }

@@ -1,0 +1,20 @@
+<view class="tab-bar">
+  <view
+    wx:for="{{list}}"
+    wx:key="path"
+    class="tab-item"
+    hover-class="tab-hover"
+    bindtap="switchTab"
+    data-path="{{item.path}}"
+  >
+    <view class="icon-wrap">
+      <image
+        class="tab-icon"
+        src="{{selected === index ? item.activeIcon : item.icon}}"
+        mode="aspectFit"
+      />
+      <view wx:if="{{index === 2 && cartCount > 0}}" class="tab-badge">{{cartCount}}</view>
+    </view>
+    <text class="tab-text" style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</text>
+  </view>
+</view>

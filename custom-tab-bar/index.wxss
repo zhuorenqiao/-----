@@ -1,0 +1,57 @@
+/* 自定义 tabBar：全部使用 rpx，随机型等比缩放 */
+.tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: #FFFFFF;
+  border-top: 1rpx solid #ECE7DD;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 1000;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14rpx 0 12rpx;
+}
+
+.tab-hover {
+  opacity: 0.7;
+}
+
+.icon-wrap {
+  position: relative;
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.tab-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.tab-badge {
+  position: absolute;
+  top: -10rpx;
+  right: -16rpx;
+  min-width: 30rpx;
+  height: 30rpx;
+  padding: 0 8rpx;
+  border-radius: 15rpx;
+  background: #C0432F;
+  color: #FFFFFF;
+  font-size: 18rpx;
+  line-height: 30rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.tab-text {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  line-height: 1.4;
+}

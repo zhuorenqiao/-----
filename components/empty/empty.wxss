@@ -20,8 +20,8 @@
   margin-top: 28rpx;
   padding: 12rpx 44rpx;
   border-radius: 999rpx;
-  background: var(--primary-bg);
-  color: var(--primary);
+  background: var(--accent-bg);
+  color: var(--accent);
   font-size: 26rpx;
 }
 

@@ -86,7 +86,7 @@ function setRemark(text) {
   wx.setStorageSync(KEY_REMARK + uid(), text || '')
 }
 
-// 刷新购物车 tab 角标
+// 刷新购物车 tab 角标（原生 tabBar + 自定义 tabBar 双通道）
 function refreshBadge() {
   try {
     const c = count()
@@ -98,6 +98,14 @@ function refreshBadge() {
   } catch (e) {
     // 非 tabBar 页面或未编译环境忽略
   }
+  // 自定义 tabBar：同步到页面栈中所有 tab-bar 实例
+  try {
+    const text = count() > 99 ? '99+' : String(count())
+    getCurrentPages().forEach(p => {
+      const tb = typeof p.getTabBar === 'function' && p.getTabBar()
+      if (tb && tb.data.cartCount !== text) tb.setData({ cartCount: text })
+    })
+  } catch (e) { /* ignore */ }
 }
 
 module.exports = {

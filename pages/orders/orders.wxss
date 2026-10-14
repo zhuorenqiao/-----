@@ -33,10 +33,10 @@
   left: 50%;
   transform: translateX(-50%);
   bottom: 8rpx;
-  width: 44rpx;
-  height: 6rpx;
-  border-radius: 3rpx;
-  background: var(--primary);
+  width: 40rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  background: var(--accent);
 }
 
 /* ---------- 订单卡片 ---------- */
@@ -77,12 +77,12 @@
 }
 
 .status-pending {
-  background: #FDF1E7;
-  color: var(--primary);
+  background: var(--accent-bg);
+  color: var(--accent);
 }
 
 .status-completed {
-  background: #E9F7EE;
+  background: #EAF1EB;
   color: var(--green);
 }
 
@@ -109,7 +109,7 @@
   height: 64rpx;
   border-radius: 10rpx;
   margin: 0 8rpx 8rpx 0;
-  background: #F4F0E9;
+  background: var(--bg-wash);
 }
 
 .order-main {
@@ -139,9 +139,10 @@
 }
 
 .foot-total {
-  font-size: 30rpx;
-  font-weight: 700;
-  color: var(--primary);
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--accent);
+  font-family: var(--font-display);
 }
 
 .foot-detail {

@@ -6,31 +6,18 @@
 /* ---------- 用户卡片 ---------- */
 .user-card {
   margin: 24rpx;
-  background: linear-gradient(160deg, #F0854A 0%, #E8590C 75%);
-  border-radius: 24rpx;
-  padding: 40rpx 32rpx;
+  background: var(--bg-card);
+  border-radius: 16rpx;
+  padding: 44rpx 32rpx;
   display: flex;
   align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.user-card::after {
-  content: '';
-  position: absolute;
-  right: -60rpx;
-  bottom: -90rpx;
-  width: 220rpx;
-  height: 220rpx;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.10);
 }
 
 .avatar {
   width: 112rpx;
   height: 112rpx;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: var(--bg-wash);
 }
 
 .user-info {
@@ -39,23 +26,26 @@
 }
 
 .user-name {
-  font-size: 34rpx;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 38rpx;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 2rpx;
 }
 
 .user-sub {
-  margin-top: 8rpx;
+  margin-top: 10rpx;
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--text-sub);
+  letter-spacing: 1rpx;
 }
 
 .mode-badge {
   font-size: 20rpx;
   padding: 6rpx 16rpx;
   border-radius: 999rpx;
-  background: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
+  border: 2rpx solid var(--line);
+  color: var(--text-sub);
 }
 
 /* ---------- 功能列表 ---------- */
@@ -75,7 +65,7 @@
 }
 
 .row-hover {
-  background: #FAF7F2;
+  background: var(--bg-wash);
 }
 
 .m-icon {
@@ -103,7 +93,7 @@
   height: 36rpx;
   padding: 0 8rpx;
   border-radius: 18rpx;
-  background: var(--primary);
+  background: var(--accent);
   color: #fff;
   font-size: 20rpx;
   display: flex;
@@ -123,8 +113,10 @@
 }
 
 .about-title {
-  font-size: 28rpx;
+  font-family: var(--font-display);
+  font-size: 30rpx;
   font-weight: 600;
+  letter-spacing: 2rpx;
   margin-bottom: 12rpx;
 }
 

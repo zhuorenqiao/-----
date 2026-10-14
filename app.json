@@ -13,15 +13,16 @@
     "pages/dish-edit/dish-edit"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarBackgroundColor": "#F7F5F0",
     "navigationBarTitleText": "家常菜餐厅",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#F6F3EE",
+    "backgroundColor": "#F7F5F0",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
-    "color": "#9B9488",
-    "selectedColor": "#E8590C",
+    "custom": true,
+    "color": "#B9B1A4",
+    "selectedColor": "#B4531F",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
