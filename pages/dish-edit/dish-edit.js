@@ -6,7 +6,8 @@ Page({
     isEdit: false,
     dishId: '',
     categories: [],
-    categoryIndex: -1,
+    categoryIndex: -1,   // 表单当前选中分类（-1 = 未选择，显示占位文案）
+    pickerIndex: 0,      // 弹框打开时滚轮默认定位（始终指向第一个分类）
     form: {
       name: '',
       category_id: '',
@@ -56,6 +57,7 @@ Page({
     const idx = this.data.categories.findIndex(c => String(c.id) === String(d.category_id))
     this.setData({
       categoryIndex: idx >= 0 ? idx : 0,
+      pickerIndex: idx >= 0 ? idx : 0,
       form: {
         name: d.name,
         category_id: d.category_id,
@@ -74,6 +76,7 @@ Page({
     const index = Number(e.detail.value)
     const cat = this.data.categories[index]
     this.setData({
+      pickerIndex: index,
       categoryIndex: index,
       'form.category_id': cat ? cat.id : ''
     })

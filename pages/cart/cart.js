@@ -77,6 +77,28 @@ Page({
     this.loadCart()
   },
 
+  onPlus(e) {
+    const id = e.currentTarget.dataset.id
+    const item = cart.getCart().find(x => String(x.id) === String(id))
+    if (!item) return
+    cart.setQuantity(id, item.quantity + 1)
+    this.loadCart()
+  },
+
+  onMinus(e) {
+    const id = e.currentTarget.dataset.id
+    const item = cart.getCart().find(x => String(x.id) === String(id))
+    if (!item) return
+    // 减到 0 时移除该菜品
+    if (item.quantity <= 1) {
+      cart.remove(id)
+      wx.showToast({ title: '已移除', icon: 'success' })
+    } else {
+      cart.setQuantity(id, item.quantity - 1)
+    }
+    this.loadCart()
+  },
+
   onDelete(e) {
     const id = e.currentTarget.dataset.id
     cart.remove(id)

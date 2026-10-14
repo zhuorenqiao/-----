@@ -1,5 +1,5 @@
 .cart-page {
-  min-height: 100vh;
+  min-height: 100%;
   /* 结算栏(110rpx) + 自定义tabBar(112rpx) + 安全区 */
   padding-bottom: calc(240rpx + env(safe-area-inset-bottom));
 }
@@ -72,6 +72,38 @@
   color: var(--text-sub);
 }
 
+/* 数量加减控件 */
+.qty-ctrl {
+  margin-top: 10rpx;
+  display: flex;
+  align-items: center;
+  border: 2rpx solid var(--line);
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.qty-btn {
+  width: 52rpx;
+  height: 44rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: var(--text-main);
+}
+
+.qty-btn-hover {
+  background: var(--bg-wash);
+}
+
+.qty-num {
+  min-width: 52rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-main);
+}
+
 .invalid-tip {
   margin-top: 20rpx;
   padding: 14rpx 20rpx;
@@ -97,10 +129,9 @@
   position: fixed;
   left: 0;
   right: 0;
-  /* 抬到自定义 tabBar 上方，避免被遮挡 */
+  /* 抬到自定义 tabBar 上方，避免被遮挡（tabBar 已含安全区，这里不再重复计算） */
   bottom: calc(112rpx + env(safe-area-inset-bottom));
-  height: calc(110rpx + env(safe-area-inset-bottom));
-  padding-bottom: env(safe-area-inset-bottom);
+  height: 110rpx;
   background: #FFFFFF;
   box-shadow: 0 -4rpx 24rpx rgba(33, 30, 26, 0.06);
   display: flex;

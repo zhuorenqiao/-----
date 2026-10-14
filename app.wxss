@@ -1,5 +1,8 @@
 /* 全局样式 - 家常菜餐厅点餐小程序 · 墨色留白 */
 page {
+  /* 至少占满视口；不用固定 height:100%，否则内容超高时页面无法滚动 */
+  min-height: 100%;
+
   /* 操作色：朱赭 / 点睛色：朱赭 */
   --ink: #211E1A;
   --primary: #B4531F;
@@ -18,19 +21,21 @@ page {
   --red: #C0432F;
 
   /* 展示字体：衬线，用于标题与价格 */
-  --font-display: 'Songti SC', 'STSong', 'STZhongsong', 'SimSun', serif;
+  --font-display: 'Microsoft YaHei', 'Songti SC', 'STSong', 'STZhongsong', 'SimSun', serif;
 
   background: var(--bg-page);
   color: var(--text-main);
   font-size: 28rpx;
   line-height: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
 }
 
 /* ---------- 通用容器 ---------- */
 .page {
-  min-height: 100vh;
+  min-height: 100%;
   box-sizing: border-box;
+  /* 建立 BFC，阻止首/尾子元素的 margin 塌陷穿透容器，避免内容不满一屏也能滚动 */
+  display: flow-root;
 }
 .section {
   background: var(--bg-card);

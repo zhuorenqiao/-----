@@ -1,6 +1,7 @@
 .profile-page {
-  min-height: 100vh;
-  padding-bottom: 60rpx;
+  min-height: 100%;
+  /* 预留自定义 tabBar（112rpx + 安全区）高度，避免底部按钮被遮挡 */
+  padding-bottom: calc(152rpx + env(safe-area-inset-bottom));
 }
 
 /* ---------- 用户卡片 ---------- */

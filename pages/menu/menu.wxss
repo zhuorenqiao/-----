@@ -1,5 +1,10 @@
+page {
+  /* 固定 page 高度为实际视口，避免 100vh 在 iPad 等机型上偏大产生多余滚动 */
+  height: 100%;
+}
+
 .menu-page {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
