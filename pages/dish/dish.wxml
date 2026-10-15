@@ -2,7 +2,7 @@
 
 <view class="page dish-page" wx:if="{{dish}}">
   <view class="hero">
-    <image class="hero-img" src="{{dish.image_url}}" mode="aspectFill" />
+    <image class="hero-img" src="{{dish.image_url}}" mode="aspectFill" bindtap="onPreviewImage" />
   </view>
 
   <view class="info-card">

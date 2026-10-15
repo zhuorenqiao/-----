@@ -114,6 +114,12 @@ Page({
     wx.switchTab({ url: '/pages/cart/cart' })
   },
 
+  onPreviewImage() {
+    const url = this.data.dish && this.data.dish.image_url
+    if (!url) return
+    wx.previewImage({ urls: [url] })
+  },
+
   onCartTap() {
     wx.switchTab({ url: '/pages/cart/cart' })
   }
