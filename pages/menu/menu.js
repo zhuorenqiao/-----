@@ -34,6 +34,10 @@ Page({
   },
 
   async loadData() {
+    // 清理上一次点击定位的遗留状态，避免 onShow 重复进入时错误高亮
+    this.pendingTap = ''
+    this.tapPollCount = 0
+    clearTimeout(this.tapTimer)
     await store.initData()
     const cats = await store.getCategories()
     if (!cats.ok) {
@@ -106,12 +110,25 @@ Page({
   onDishScroll(e) {
     const d = e.detail || {}
     const now = Date.now()
-    if (this.scrollLockUntil && now < this.scrollLockUntil) return
-    if (this.lastSyncT && now - this.lastSyncT < 60) return
-    this.lastSyncT = now
     const tops = this.sectionTops
     if (!tops || !tops.length) return
     const scrollTop = d.scrollTop || 0
+    // 点击左侧分类后的程序化定位途中：只在真正到达目标分类时才同步高亮
+    if (this.pendingTap) {
+      const target = tops.find(t => t.id === this.pendingTap)
+      const atBottom = this.scrollViewH && d.scrollHeight &&
+        scrollTop + this.scrollViewH >= d.scrollHeight - 5
+      if (target && (Math.abs(scrollTop - target.top) <= 2 || atBottom)) {
+        const id = this.pendingTap
+        this.pendingTap = ''
+        clearTimeout(this.tapTimer)
+        this.syncActive(id)
+      }
+      return
+    }
+    if (this.scrollLockUntil && now < this.scrollLockUntil) return
+    if (this.lastSyncT && now - this.lastSyncT < 60) return
+    this.lastSyncT = now
     let idx = 0
     for (let i = 0; i < tops.length; i++) {
       if (tops[i].top <= scrollTop + 10) idx = i
@@ -158,11 +175,52 @@ Page({
   onCatTap(e) {
     const id = String(e.currentTarget.dataset.id)
     if (id === this.data.activeCategory) return
-    this.syncActive(id)
-    // 程序化定位期间锁定滚动联动，避免动画经过中间分类时左侧闪烁
+    // 点击后先让右侧定位滚动，等列表真正到达该分类顶部再高亮左侧，
+    // 避免内容还没滑到上方左侧就提前高亮
+    this.pendingTap = id
     this.scrollLockUntil = Date.now() + 600
     this.setData({ intoSection: '' })
     wx.nextTick(() => this.setData({ intoSection: 'sec-' + id }))
+    this.watchTapArrival()
+  },
+
+  // 兜底轮询右侧滚动位置：到达目标分类（或已滚到底）后再同步左侧高亮
+  watchTapArrival() {
+    clearTimeout(this.tapTimer)
+    this.tapTimer = setTimeout(() => {
+      if (!this.pendingTap) return
+      this.tapPollCount = (this.tapPollCount || 0) + 1
+      // 目标区块在列表末尾无法滚到顶部对齐时，最多轮询 2.5s 后强制同步
+      if (this.tapPollCount > 12) {
+        const id = this.pendingTap
+        this.pendingTap = ''
+        this.tapPollCount = 0
+        this.syncActive(id)
+        return
+      }
+      const q = wx.createSelectorQuery().in(this)
+      q.select('.dish-side').scrollOffset()
+      q.exec(res => {
+        if (!res || !res[0] || !this.pendingTap) return
+        const scrollTop = res[0].scrollTop || 0
+        const tops = this.sectionTops || []
+        let arrived = false
+        for (let i = 0; i < tops.length; i++) {
+          if (tops[i].id === this.pendingTap) {
+            arrived = Math.abs(scrollTop - tops[i].top) <= 2
+            break
+          }
+        }
+        if (arrived) {
+          const id = this.pendingTap
+          this.pendingTap = ''
+          this.tapPollCount = 0
+          this.syncActive(id)
+        } else {
+          this.watchTapArrival()
+        }
+      })
+    }, 200)
   },
 
   findDish(id) {
