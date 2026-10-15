@@ -1,10 +1,11 @@
 <view class="page menu-page">
   <view class="menu-body">
     <!-- 左侧分类 -->
-    <scroll-view class="cat-side" scroll-y>
+    <scroll-view class="cat-side" scroll-y scroll-into-view="{{intoCat}}" scroll-with-animation>
       <view
         wx:for="{{categories}}"
         wx:key="id"
+        id="left-{{item.id}}"
         class="cat-item {{item.active ? 'cat-active' : ''}}"
         bindtap="onCatTap"
         data-id="{{item.id}}"
@@ -13,23 +14,37 @@
       </view>
     </scroll-view>
 
-    <!-- 右侧菜品列表 -->
-    <scroll-view class="dish-side" scroll-y>
+    <!-- 右侧菜品：所有分类连排，某分类滑完后继续下滑进入下一分类，左侧同步联动 -->
+    <scroll-view
+      class="dish-side"
+      scroll-y
+      bindscroll="onDishScroll"
+      scroll-into-view="{{intoSection}}"
+      scroll-with-animation
+    >
       <view class="dish-wrap">
-        <view class="cat-title">{{activeCategoryName}}</view>
-        <block wx:if="{{dishes.length > 0}}">
-          <dish-card
-            wx:for="{{dishes}}"
-            wx:key="id"
-            dish="{{item}}"
-            quantity="{{quantities[item.id] || 0}}"
-            layout="list"
-            bind:tap="onDishTap"
-            bind:change="onDishChange"
-          />
-        </block>
-        <view wx:else class="no-dish">
-          <text>该分类下暂无菜品</text>
+        <view
+          wx:for="{{sections}}"
+          wx:key="id"
+          id="sec-{{item.id}}"
+          class="cat-section"
+        >
+          <view class="cat-title">{{item.name}}</view>
+          <block wx:if="{{item.dishes.length > 0}}">
+            <dish-card
+              wx:for="{{item.dishes}}"
+              wx:for-item="dish"
+              wx:key="id"
+              dish="{{dish}}"
+              quantity="{{quantities[dish.id] || 0}}"
+              layout="list"
+              bind:tap="onDishTap"
+              bind:change="onDishChange"
+            />
+          </block>
+          <view wx:else class="sec-empty">
+            <text>该分类下暂无菜品</text>
+          </view>
         </view>
       </view>
     </scroll-view>

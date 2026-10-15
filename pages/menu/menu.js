@@ -1,4 +1,4 @@
-// 点餐页：左侧分类，右侧菜品列表，底部购物车栏
+// 点餐页：左侧分类，右侧菜品列表（全部分类连成一页，滚动联动左侧菜单）
 const auth = require('../../utils/auth')
 const store = require('../../utils/store')
 const cart = require('../../utils/cart')
@@ -7,12 +7,15 @@ const flyUtil = require('../../utils/fly')
 Page({
   data: {
     categories: [],
+    sections: [],
     activeCategory: '',
     activeCategoryName: '',
-    dishes: [],
     quantities: {},
     cartCount: 0,
-    cartTotal: 0
+    cartTotal: 0,
+    // 左侧/右侧 scroll-view 的定位锚点
+    intoCat: '',
+    intoSection: ''
   },
 
   onLoad(options) {
@@ -37,6 +40,12 @@ Page({
       wx.showToast({ title: cats.error, icon: 'none' })
       return
     }
+    const allRes = await store.getDishes({ status: 'on' })
+    if (!allRes.ok) {
+      wx.showToast({ title: allRes.error, icon: 'none' })
+      return
+    }
+    const allDishes = await store.resolveImages(allRes.data)
     let active = this.data.activeCategory
     // 接收首页「本店分类」跳转指定的分类（switchTab 不支持带参数，走 globalData）
     const app = getApp()
@@ -45,41 +54,100 @@ Page({
       this.pendingCategory = ''
       app.globalData.pendingCategory = ''
     }
-    const found = cats.data.find(c => String(c.id) === String(active))
-    const target = found || cats.data[0]
-    const activeId = target ? String(target.id) : ''
-    const categories = cats.data.map(c => ({
-      id: c.id,
+    // 按分类顺序把所有在售菜品分组，右侧连成一个可滚动长列表
+    const sections = cats.data.map(c => ({
+      id: String(c.id),
       name: c.name,
-      active: String(c.id) === activeId
+      dishes: allDishes.filter(d => String(d.category_id) === String(c.id))
+    }))
+    const found = sections.find(s => s.id === String(active))
+    const target = found || sections[0]
+    const activeId = target ? target.id : ''
+    const categories = sections.map(s => ({
+      id: s.id,
+      name: s.name,
+      active: s.id === activeId
     }))
     this.setData({
       categories: categories,
+      sections: sections,
       activeCategory: activeId,
       activeCategoryName: target ? target.name : ''
     })
-    await this.loadDishes()
+    // 指定进入某分类时，右侧直接定位到该区块
+    if (found) {
+      this.scrollLockUntil = Date.now() + 600
+      this.setData({ intoSection: '' })
+      wx.nextTick(() => this.setData({ intoSection: 'sec-' + activeId }))
+    }
+    this.refreshQuantities()
+    this.measureSections()
+    // 图片等异步渲染后兜底再测一次，保证联动阈值准确
+    setTimeout(() => this.measureSections(), 800)
   },
 
-  async loadDishes() {
-    if (!this.data.activeCategory) {
-      this.setData({ dishes: [] })
-      return
+  // 缓存右侧每个分类区块相对滚动容器的顶部偏移，供滚动联动计算
+  measureSections() {
+    const q = wx.createSelectorQuery().in(this)
+    q.select('.dish-side').boundingClientRect()
+    q.selectAll('.cat-section').boundingClientRect()
+    q.exec(res => {
+      if (!res || !res[0] || !res[1] || !res[1].length) return
+      const baseTop = res[0].top
+      this.sectionTops = res[1].map(r => ({
+        id: String(r.id || '').replace(/^sec-/, ''),
+        top: r.top - baseTop
+      }))
+      this.scrollViewH = res[0].height
+    })
+  },
+
+  // 右侧滚动时，同步左侧选中分类（某分类滑完后继续滑即进入下一分类）
+  onDishScroll(e) {
+    const d = e.detail || {}
+    const now = Date.now()
+    if (this.scrollLockUntil && now < this.scrollLockUntil) return
+    if (this.lastSyncT && now - this.lastSyncT < 60) return
+    this.lastSyncT = now
+    const tops = this.sectionTops
+    if (!tops || !tops.length) return
+    const scrollTop = d.scrollTop || 0
+    let idx = 0
+    for (let i = 0; i < tops.length; i++) {
+      if (tops[i].top <= scrollTop + 10) idx = i
+      else break
     }
-    const r = await store.getDishes({ category_id: this.data.activeCategory, status: 'on' })
-    if (!r.ok) {
-      wx.showToast({ title: r.error, icon: 'none' })
-      return
+    // 滚到底部时强制定位到最后一个分类（末尾分类内容不足一屏的场景）
+    if (this.scrollViewH && d.scrollHeight &&
+      scrollTop + this.scrollViewH >= d.scrollHeight - 5) {
+      idx = tops.length - 1
     }
-    const dishes = await store.resolveImages(r.data)
-    this.setData({ dishes: dishes })
-    this.refreshQuantities()
+    const id = tops[idx].id
+    if (id && id !== this.data.activeCategory) {
+      this.syncActive(id)
+    }
+  },
+
+  // 同步左侧选中态，并让左侧菜单滚动到当前项可见
+  syncActive(id) {
+    id = String(id)
+    const categories = this.data.categories.map(c => ({
+      id: c.id,
+      name: c.name,
+      active: c.id === id
+    }))
+    const cat = this.data.categories.find(c => c.id === id)
+    this.setData({
+      categories: categories,
+      activeCategory: id,
+      activeCategoryName: cat ? cat.name : '',
+      intoCat: 'left-' + id
+    })
   },
 
   refreshQuantities() {
     const map = {}
     cart.getCart().forEach(x => { map[x.id] = x.quantity })
-    const cartList = cart.getCart()
     this.setData({
       quantities: map,
       cartCount: cart.count(),
@@ -90,18 +158,21 @@ Page({
   onCatTap(e) {
     const id = String(e.currentTarget.dataset.id)
     if (id === this.data.activeCategory) return
-    const categories = this.data.categories.map(c => ({
-      id: c.id,
-      name: c.name,
-      active: String(c.id) === id
-    }))
-    const cat = this.data.categories.find(c => String(c.id) === id)
-    this.setData({
-      categories: categories,
-      activeCategory: id,
-      activeCategoryName: cat ? cat.name : ''
-    })
-    this.loadDishes()
+    this.syncActive(id)
+    // 程序化定位期间锁定滚动联动，避免动画经过中间分类时左侧闪烁
+    this.scrollLockUntil = Date.now() + 600
+    this.setData({ intoSection: '' })
+    wx.nextTick(() => this.setData({ intoSection: 'sec-' + id }))
+  },
+
+  findDish(id) {
+    for (let i = 0; i < this.data.sections.length; i++) {
+      const dish = this.data.sections[i].dishes.find(
+        d => String(d.id) === String(id)
+      )
+      if (dish) return dish
+    }
+    return null
   },
 
   onDishTap(e) {
@@ -113,7 +184,7 @@ Page({
 
   onDishChange(e) {
     const detail = e.detail || {}
-    const dish = this.data.dishes.find(d => String(d.id) === String(detail.dishId))
+    const dish = this.findDish(detail.dishId)
     if (!dish) return
     const isNewAdd = detail.value > 0 &&
       !cart.getCart().find(x => String(x.id) === String(dish.id))
