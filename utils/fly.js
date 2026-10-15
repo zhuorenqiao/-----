@@ -40,7 +40,9 @@ async function resolveCartTarget(page) {
     const rect = await bar.getCartIconRect()
     if (rect) return rect
   }
-  const tabBar = typeof page.getTabBar === 'function' && page.getTabBar()
+  // main 容器页：组件通过 _hostTabbar 持有内嵌 tab bar 引用
+  const tabBar = page._hostTabbar ||
+    (typeof page.getTabBar === 'function' && page.getTabBar())
   if (tabBar && typeof tabBar.getCartIconRect === 'function') {
     const rect = await tabBar.getCartIconRect()
     if (rect) return rect
@@ -56,7 +58,8 @@ function bumpCartIcon(page) {
     bar.bumpCartIcon()
     return
   }
-  const tabBar = typeof page.getTabBar === 'function' && page.getTabBar()
+  const tabBar = page._hostTabbar ||
+    (typeof page.getTabBar === 'function' && page.getTabBar())
   if (tabBar && typeof tabBar.bumpCartIcon === 'function') {
     tabBar.bumpCartIcon()
   }

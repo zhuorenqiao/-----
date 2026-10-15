@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "tab-home": "/components/tab-home/tab-home",
+    "tab-menu": "/components/tab-menu/tab-menu",
+    "tab-cart": "/components/tab-cart/tab-cart",
+    "tab-orders": "/components/tab-orders/tab-orders",
+    "tab-profile": "/components/tab-profile/tab-profile",
+    "main-tabbar": "/components/main-tabbar/main-tabbar"
+  }
+}

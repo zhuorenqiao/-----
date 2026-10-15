@@ -1,0 +1,39 @@
+<view class="main-page">
+  <swiper
+    class="main-swiper"
+    current="{{current}}"
+    duration="{{260}}"
+    easing-function="easeOutCubic"
+    bindchange="onSwiperChange"
+  >
+    <swiper-item>
+      <scroll-view class="tab-scroll" scroll-y lower-threshold="100" bindscrolltolower="onScrollBottom" bindscroll="onTabScroll" data-idx="{{0}}">
+        <tab-home id="tab0" class="tab-flow" />
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <!-- 点餐 tab 自带左右分栏滚动，不需要外层 scroll-view -->
+      <view class="tab-scroll">
+        <tab-menu id="tab1" class="tab-host" />
+      </view>
+    </swiper-item>
+    <swiper-item>
+      <scroll-view class="tab-scroll" scroll-y lower-threshold="100" bindscrolltolower="onScrollBottom" bindscroll="onTabScroll" data-idx="{{2}}">
+        <tab-cart id="tab2" class="tab-flow" />
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <scroll-view class="tab-scroll" scroll-y lower-threshold="100" bindscrolltolower="onScrollBottom" bindscroll="onTabScroll" data-idx="{{3}}">
+        <tab-orders id="tab3" class="tab-flow" />
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <scroll-view class="tab-scroll" scroll-y lower-threshold="100" bindscrolltolower="onScrollBottom" bindscroll="onTabScroll" data-idx="{{4}}">
+        <tab-profile id="tab4" class="tab-flow" />
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 内嵌 tab bar（覆盖在 swiper 上方） -->
+  <main-tabbar id="tabbar" selected="{{current}}" bind:change="onTabTap" />
+</view>

@@ -2,6 +2,7 @@
 const store = require('../../utils/store')
 const cart = require('../../utils/cart')
 const fmt = require('../../utils/format')
+const nav = require('../../utils/nav')
 
 const STATUS_TEXT = {
   pending: '待完成',
@@ -121,7 +122,7 @@ Page({
     })
     wx.showToast({ title: '已加入购物车', icon: 'success' })
     setTimeout(() => {
-      wx.switchTab({ url: '/pages/cart/cart' })
+      nav.goTab(2)
     }, 400)
   }
 })

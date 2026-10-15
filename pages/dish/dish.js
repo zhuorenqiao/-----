@@ -3,6 +3,7 @@ const auth = require('../../utils/auth')
 const store = require('../../utils/store')
 const cart = require('../../utils/cart')
 const flyUtil = require('../../utils/fly')
+const nav = require('../../utils/nav')
 
 Page({
   data: {
@@ -111,7 +112,7 @@ Page({
     const cur = cart.getCart().find(x => String(x.id) === String(this.dishId))
     if (!cur) cart.add(this.data.dish, 1)
     this.refreshQuantity()
-    wx.switchTab({ url: '/pages/cart/cart' })
+    nav.goTab(2)
   },
 
   onPreviewImage() {
@@ -121,6 +122,6 @@ Page({
   },
 
   onCartTap() {
-    wx.switchTab({ url: '/pages/cart/cart' })
+    nav.goTab(2)
   }
 })

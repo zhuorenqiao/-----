@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "购物车",
+  "component": true,
   "usingComponents": {
     "empty": "/components/empty/empty",
     "stepper": "/components/stepper/stepper"

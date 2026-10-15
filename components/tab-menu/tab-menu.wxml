@@ -1,6 +1,6 @@
 <view class="page menu-page">
+  <!-- 左侧分类 -->
   <view class="menu-body">
-    <!-- 左侧分类 -->
     <scroll-view class="cat-side" scroll-y scroll-into-view="{{intoCat}}" scroll-with-animation>
       <view
         wx:for="{{categories}}"

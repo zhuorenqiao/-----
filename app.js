@@ -10,6 +10,8 @@ App({
   globalData: {
     session: null,   // 当前会话 { id, name, mode }
     mode: 'local',   // local = 本地存储模式；cloud = 云端模式
-    cartVersion: 0   // 购物车变更版本号，页面 onShow 时据此刷新
+    cartVersion: 0,  // 购物车变更版本号，页面 onShow 时据此刷新
+    pendingTab: '',  // 外部页面（utils/nav.goTab）请求 main 页切换到的目标 tab
+    pendingCategory: '' // 首页跳点餐 tab 时指定进入的分类
   }
 })

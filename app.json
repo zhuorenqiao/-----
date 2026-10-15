@@ -1,10 +1,6 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/menu/menu",
-    "pages/cart/cart",
-    "pages/orders/orders",
-    "pages/profile/profile",
+    "pages/main/main",
     "pages/dish/dish",
     "pages/order-detail/order-detail",
     "pages/login/login",
@@ -18,46 +14,8 @@
     "backgroundColor": "#F7F5F0",
     "backgroundTextStyle": "dark"
   },
-  "tabBar": {
-    "custom": true,
-    "color": "#B9B1A4",
-    "selectedColor": "#B4531F",
-    "backgroundColor": "#FFFFFF",
-    "borderStyle": "white",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "assets/icons/tab-home.png",
-        "selectedIconPath": "assets/icons/tab-home-active.png"
-      },
-      {
-        "pagePath": "pages/menu/menu",
-        "text": "点餐",
-        "iconPath": "assets/icons/tab-menu.png",
-        "selectedIconPath": "assets/icons/tab-menu-active.png"
-      },
-      {
-        "pagePath": "pages/cart/cart",
-        "text": "购物车",
-        "iconPath": "assets/icons/tab-cart.png",
-        "selectedIconPath": "assets/icons/tab-cart-active.png"
-      },
-      {
-        "pagePath": "pages/orders/orders",
-        "text": "订单",
-        "iconPath": "assets/icons/tab-orders.png",
-        "selectedIconPath": "assets/icons/tab-orders-active.png"
-      },
-      {
-        "pagePath": "pages/profile/profile",
-        "text": "我的",
-        "iconPath": "assets/icons/tab-profile.png",
-        "selectedIconPath": "assets/icons/tab-profile-active.png"
-      }
-    ]
-  },
   "lazyCodeLoading": "requiredComponents",
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }
+

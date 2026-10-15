@@ -45,6 +45,7 @@ picker {
   /* 建立 BFC，阻止首/尾子元素的 margin 塌陷穿透容器，避免内容不满一屏也能滚动 */
   display: flow-root;
 }
+
 .section {
   background: var(--bg-card);
   border-radius: 16rpx;

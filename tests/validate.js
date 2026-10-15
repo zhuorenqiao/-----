@@ -64,8 +64,10 @@ pages.forEach(p => {
   else fail('页面缺少 .wxml/.js: ' + p)
 })
 
+// tabBar 可缺省：当前架构为单页 main 容器内嵌 tab bar（swiper 切换），不再使用原生 tabBar
 const tabPaths = (appJson.tabBar && appJson.tabBar.list || []).map(t => t.pagePath)
-if (tabPaths.length >= 2 && tabPaths.length <= 5) ok('tabBar 条目 ' + tabPaths.length + ' 个')
+if (tabPaths.length === 0) ok('未配置原生 tabBar（使用 main 页内嵌 tab bar）')
+else if (tabPaths.length >= 2 && tabPaths.length <= 5) ok('tabBar 条目 ' + tabPaths.length + ' 个')
 else fail('tabBar 条目数量应为 2-5，实际 ' + tabPaths.length)
 tabPaths.forEach(tp => {
   if (pages.indexOf(tp) >= 0) ok('tabBar 页面已注册: ' + tp)

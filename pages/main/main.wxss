@@ -1,0 +1,31 @@
+/* 主容器页：swiper 铺满视口，tab bar 覆盖其上 */
+page {
+  /* 固定为实际视口高度，swiper 与各 tab 内部自行滚动 */
+  height: 100%;
+}
+
+.main-page {
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-swiper {
+  height: 100%;
+}
+
+.tab-scroll {
+  height: 100%;
+}
+
+/* 组件宿主节点默认无块级样式，必须显式声明：
+   - tab-host：点餐页，固定撑满视口（内部左右分栏各自滚动，联动依赖完整高度链）
+   - tab-flow：其余 tab，仅块级化不限定高度（内容自然增高，外层 scroll-view 才能滚动） */
+.tab-host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tab-flow {
+  display: block;
+  width: 100%;
+}

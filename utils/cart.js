@@ -106,6 +106,10 @@ function refreshBadge() {
     getCurrentPages().forEach(p => {
       const tb = typeof p.getTabBar === 'function' && p.getTabBar()
       if (tb && tb.data.cartCount !== text) tb.setData({ cartCount: text })
+      // main 容器页的内嵌 tab bar
+      if (p.route === 'pages/main/main' && typeof p.updateCartBadge === 'function') {
+        p.updateCartBadge(text)
+      }
     })
   } catch (e) { /* ignore */ }
 }

@@ -1,11 +1,11 @@
 <view class="tab-bar">
   <view
     wx:for="{{list}}"
-    wx:key="path"
+    wx:key="text"
     class="tab-item"
     hover-class="tab-hover"
-    bindtap="switchTab"
-    data-path="{{item.path}}"
+    bindtap="onTap"
+    data-index="{{index}}"
   >
     <view class="icon-wrap {{index === 2 && bump ? 'icon-bump' : ''}}">
       <image

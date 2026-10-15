@@ -1,6 +1,5 @@
 {
-  "navigationBarTitleText": "家常菜餐厅",
-  "enablePullDownRefresh": false,
+  "component": true,
   "usingComponents": {
     "dish-card": "/components/dish-card/dish-card",
     "fly-ball": "/components/fly-ball/fly-ball"
