@@ -67,30 +67,34 @@ Page({
       wx.showToast({ title: '该菜品已下架', icon: 'none' })
       return
     }
-    if (this.flying) return
-    this.flying = true
+    // 与列表加购逻辑一致：仅首次加购（购物车中尚无该菜品）时播放抛物线动画
+    const isNewAdd = !cart.getCart().find(x => String(x.id) === String(this.dishId))
     cart.add(this.data.dish, 1)
 
-    // 从头图中心（滚出视口时退化为按钮中心）抛物线飞入底部购物车图标
-    const flyBall = this.selectComponent('#flyBall')
-    const [hero, btn, entry] = await Promise.all([
-      flyUtil.getRect('.hero-img'),
-      flyUtil.getRect('.btn-add'),
-      flyUtil.getRect('.cart-entry')
-    ])
-    if (flyBall && entry) {
-      const win = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync()
-      let start = hero
-      if (!start || start.top < 0 || start.bottom > win.windowHeight) start = btn
-      if (start) {
-        const c = flyUtil.centerOf(start)
-        await flyBall.fly({
-          startX: c.x,
-          startY: c.y,
-          targetRect: entry,
-          image: this.data.dish.image_url
-        })
+    if (isNewAdd && !this.flying) {
+      this.flying = true
+      // 从头图中心（滚出视口时退化为按钮中心）抛物线飞入底部购物车图标
+      const flyBall = this.selectComponent('#flyBall')
+      const [hero, btn, entry] = await Promise.all([
+        flyUtil.getRect('.hero-img'),
+        flyUtil.getRect('.btn-add'),
+        flyUtil.getRect('.cart-entry')
+      ])
+      if (flyBall && entry) {
+        const win = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync()
+        let start = hero
+        if (!start || start.top < 0 || start.bottom > win.windowHeight) start = btn
+        if (start) {
+          const c = flyUtil.centerOf(start)
+          await flyBall.fly({
+            startX: c.x,
+            startY: c.y,
+            targetRect: entry,
+            image: this.data.dish.image_url
+          })
+        }
       }
+      this.flying = false
     }
     this.flyDone()
   },

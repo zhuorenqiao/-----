@@ -123,12 +123,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 24rpx;
 }
 
 .cart-icon {
-  width: 46rpx;
-  height: 46rpx;
+  width: 146rpx;
+  height: 146rpx;
 }
 
 .cart-badge {
@@ -173,6 +172,7 @@
 .btn-buy {
   background: var(--primary);
   color: #FFFFFF;
+  flex: 2;
 }
 
 .btn-hover {
