@@ -10,7 +10,8 @@ Page({
     total: 0,
     totalText: '0.00',
     remark: '',
-    invalidCount: 0
+    invalidCount: 0,
+    submitting: false
   },
 
   onShow() {
@@ -110,11 +111,35 @@ Page({
     wx.switchTab({ url: '/pages/menu/menu' })
   },
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.data.submitting) return
     if (!this.data.items.length) {
       wx.showToast({ title: '购物车是空的', icon: 'none' })
       return
     }
-    wx.navigateTo({ url: '/pages/checkout/checkout' })
+    this.setData({ submitting: true })
+    wx.showLoading({ title: '提交中', mask: true })
+    const r = await store.createOrder({
+      items: this.data.items.map(x => ({
+        id: x.id,
+        name: x.name,
+        price: x.price,
+        image: x.image,
+        quantity: x.quantity
+      })),
+      total_price: this.data.total,
+      remark: this.data.remark
+    })
+    wx.hideLoading()
+    this.setData({ submitting: false })
+    if (!r.ok) {
+      wx.showToast({ title: r.error, icon: 'none' })
+      return
+    }
+    cart.clear()
+    wx.showToast({ title: '下单成功', icon: 'success' })
+    setTimeout(() => {
+      wx.reLaunch({ url: '/pages/orders/orders' })
+    }, 400)
   }
 })

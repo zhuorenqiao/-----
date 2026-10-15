@@ -6,7 +6,6 @@
     "pages/orders/orders",
     "pages/profile/profile",
     "pages/dish/dish",
-    "pages/checkout/checkout",
     "pages/order-detail/order-detail",
     "pages/login/login",
     "pages/admin/admin",

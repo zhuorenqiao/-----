@@ -111,7 +111,7 @@ Page({
     const cur = cart.getCart().find(x => String(x.id) === String(this.dishId))
     if (!cur) cart.add(this.data.dish, 1)
     this.refreshQuantity()
-    wx.navigateTo({ url: '/pages/checkout/checkout' })
+    wx.switchTab({ url: '/pages/cart/cart' })
   },
 
   onCartTap() {
