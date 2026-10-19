@@ -146,8 +146,9 @@ async function initData() {
       changed = true
       return
     }
-    // 仍是包内示例图的菜品跟随种子升级（换成远程高清图），店家自定义过的图保留
-    if (seed.isBundledSeedImage(old.image) && old.image !== d.image) {
+    // 仍是示例图（包内旧图或远程托管图）的菜品跟随种子升级，店家自定义过的图保留
+    const managed = seed.isBundledSeedImage(old.image) || seed.isSeedRemoteImage(old.image)
+    if (managed && old.image !== d.image) {
       old.image = d.image
       changed = true
     }

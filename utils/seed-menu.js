@@ -9,7 +9,7 @@
 
 const config = require('./config.js')
 
-const VERSION = 5
+const VERSION = 6
 
 const LOCAL_IMAGE_BASE = '/assets/seed/dishes/'
 
@@ -87,7 +87,8 @@ function remoteBase() {
 
 // 菜品图地址：优先远程高清图，未配置时回退包内示例图
 function dishImage(imgKey) {
-  return (remoteBase() || LOCAL_IMAGE_BASE) + imgKey + '.jpg'
+  const base = remoteBase() || LOCAL_IMAGE_BASE.replace(/\/+$/, '')
+  return base + '/' + imgKey + '.jpg'
 }
 
 // 是否使用远程高清图
@@ -100,11 +101,18 @@ function isBundledSeedImage(path) {
   return typeof path === 'string' && path.indexOf(LOCAL_IMAGE_BASE) === 0
 }
 
+// 是否是示例图托管的远程地址（含历史版本的错误拼接），用于种子升级时刷新主图
+function isSeedRemoteImage(path) {
+  const base = remoteBase()
+  return !!base && typeof path === 'string' && path.indexOf(base) === 0
+}
+
 module.exports = {
   VERSION,
   CATEGORIES,
   DISHES,
   dishImage,
   useRemoteImages,
-  isBundledSeedImage
+  isBundledSeedImage,
+  isSeedRemoteImage
 }
