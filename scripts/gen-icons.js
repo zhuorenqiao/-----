@@ -169,21 +169,27 @@ const plus = [
 ];
 const minus = [{ line: [26, 48, 70, 48], w: 11 }];
 
-// 铅笔（笔尖朝左下 45°）
-const T = [24, 57], DIR = [Math.SQRT1_2, -Math.SQRT1_2], PERP = [Math.SQRT1_2, Math.SQRT1_2];
-const pencilEnd = [T[0] + 34 * DIR[0], T[1] + 34 * DIR[1]];
-const HB = 6; // 半宽
-const e1a = [T[0] - HB * PERP[0], T[1] - HB * PERP[1]];
-const e2a = [T[0] + HB * PERP[0], T[1] + HB * PERP[1]];
-const e1b = [pencilEnd[0] - HB * PERP[0], pencilEnd[1] - HB * PERP[1]];
-const e2b = [pencilEnd[0] + HB * PERP[0], pencilEnd[1] + HB * PERP[1]];
-const div = [T[0] + 10 * DIR[0], T[1] + 10 * DIR[1]]; // 笔尖分隔线中点
-const edit = [
-  { line: [...e1a, ...e1b], w: 5 }, { line: [...e2a, ...e2b], w: 5 },
-  { line: [...e1a, ...T], w: 5 }, { line: [...e2a, ...T], w: 5 },
-  { line: [...e1b, ...e2b], w: 5 },
-  { line: [div[0] - HB * PERP[0], div[1] - HB * PERP[1], div[0] + HB * PERP[0], div[1] + HB * PERP[1]], w: 4 },
-];
+// 铅笔（笔尖朝左下 45°，居中，可缩放）
+function editDefs(s) {
+  const L = (x1, y1, x2, y2, w) => ({ line: [x1 * s, y1 * s, x2 * s, y2 * s], w: w * s });
+  // 81 视窗内：笔尖 (23.5,57.5) 到 笔尾 (57.5,23.5)，笔身半宽 7，全长 48
+  const HW = 7, P = Math.SQRT1_2;
+  const T = [23.5, 57.5], E = [57.5, 23.5];
+  const o = HW * P; // 半宽在坐标轴上的投影
+  const e1a = [T[0] - o, T[1] - o], e2a = [T[0] + o, T[1] + o];
+  const e1b = [E[0] - o, E[1] - o], e2b = [E[0] + o, E[1] + o];
+  const sep = [T[0] + 12 * P, T[1] - 12 * P];  // 笔尖分隔线中点
+  const band = [T[0] + 40 * P, T[1] - 40 * P]; // 笔尾橡皮分隔线中点
+  return [
+    L(e1a[0], e1a[1], e1b[0], e1b[1], 5),    // 笔身上侧线
+    L(e2a[0], e2a[1], e2b[0], e2b[1], 5),    // 笔身下侧线
+    L(e1a[0], e1a[1], T[0], T[1], 5),        // 笔尖左斜边
+    L(e2a[0], e2a[1], T[0], T[1], 5),        // 笔尖右斜边
+    L(e1b[0], e1b[1], e2b[0], e2b[1], 5),    // 笔尾端线
+    L(sep[0] - o, sep[1] - o, sep[0] + o, sep[1] + o, 4.5),  // 笔尖分隔
+    L(band[0] - o, band[1] - o, band[0] + o, band[1] + o, 4.5), // 橡皮分隔
+  ];
+}
 // 垃圾桶
 const trash = [
   { line: [24, 26, 57, 26], w: 5.5 },
@@ -210,7 +216,8 @@ const jobs = [
   ['plus.png', 96, NEUTRAL, plus],
   ['minus.png', 96, NEUTRAL, minus],
   ['cart-small.png', 96, NEUTRAL, cartDefs(96 / 81)],
-  ['edit.png', 96, NEUTRAL, edit],
+  ['empty-cart.png', 192, [0xc9, 0xbf, 0xb1], cartDefs(192 / 81)], // 购物车空状态占位图
+  ['edit.png', 96, NEUTRAL, editDefs(96 / 81)],
   ['trash.png', 96, [0xc0, 0x43, 0x2f], trash],
 ];
 for (const [name, size, color, prims] of jobs) {

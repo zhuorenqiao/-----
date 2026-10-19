@@ -16,7 +16,7 @@
     "lazyloadPlaceholderEnable": false,
     "compileWorklet": false,
     "uglifyFileName": false,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
@@ -34,12 +34,56 @@
   "packOptions": {
     "ignore": [
       {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
         "value": "tests",
         "type": "folder"
       },
       {
         "value": ".tmp-gen",
         "type": "folder"
+      },
+      {
+        "value": "scripts",
+        "type": "folder"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      },
+      {
+        "value": "CODEBUDDY.md",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      },
+      {
+        "value": "before.txt",
+        "type": "file"
+      },
+      {
+        "value": "resp.txt",
+        "type": "file"
+      },
+      {
+        "value": "r_25758.txt",
+        "type": "file"
+      },
+      {
+        "value": "r_32123.txt",
+        "type": "file"
+      },
+      {
+        "value": "r_37892.txt",
+        "type": "file"
       }
     ],
     "include": []

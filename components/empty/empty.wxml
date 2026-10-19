@@ -1,5 +1,5 @@
 <view class="empty-box">
-  <image class="empty-img" src="/assets/icons/empty.png" mode="aspectFit" />
+  <image class="empty-img" src="{{icon}}" mode="aspectFit" />
   <view class="empty-text">{{text}}</view>
   <view wx:if="{{actionText}}" class="empty-action" hover-class="action-hover" bindtap="onAction">{{actionText}}</view>
 </view>

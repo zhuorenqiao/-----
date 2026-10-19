@@ -192,7 +192,7 @@ Page({
     const that = this
     wx.showModal({
       title: '初始化示例菜单',
-      content: '将写入 5 个分类和 16 道示例菜品（含图片上传到云端存储），大约需要一两分钟。',
+      content: '将写入 5 个分类和 34 道示例菜品（含图片上传到云端存储），大约需要一两分钟。',
       confirmColor: '#E8590C',
       success: async res => {
         if (!res.confirm) return

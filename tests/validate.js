@@ -173,7 +173,7 @@ while ((im = imgRe.exec(seedMenu)) !== null) {
   if (exists(p)) ok('种子图片存在: ' + p)
   else fail('种子图片缺失: ' + p)
 }
-if (seedCount === 16) ok('种子菜品 16 道')
+if (seedCount === 34) ok('种子菜品 34 道')
 else fail('种子菜品数量异常: ' + seedCount)
 
 console.log('== 7. 云 SDK 依赖 ==')
@@ -205,6 +205,48 @@ textFiles.forEach(f => {
   })
 })
 if (!emojiFound) ok('全部源文件无 Emoji')
+
+console.log('== 9. 主包体积守护 ==')
+{
+  const LIMIT = 2 * 1024 * 1024 // 小程序主包上限 2MB
+  const pkgIgnore = (readJson('project.config.json').packOptions || {}).ignore || []
+  const ignored = rel => pkgIgnore.some(it =>
+    it.type === 'file' ? rel === it.value
+      : rel === it.value || rel.indexOf(it.value + '/') === 0)
+
+  let total = 0
+  const biggest = []
+  const scan = dir => {
+    fs.readdirSync(path.join(ROOT, dir)).forEach(name => {
+      if (name.charAt(0) === '.') return // 开发者工具默认忽略 . 开头的文件/目录
+      const rel = (dir === '' ? name : dir + '/' + name).replace(/\\/g, '/')
+      if (ignored(rel)) return
+      const stat = fs.statSync(path.join(ROOT, rel))
+      if (stat.isDirectory()) scan(rel)
+      else {
+        total += stat.size
+        biggest.push([rel, stat.size])
+      }
+    })
+  }
+  scan('')
+
+  const mb = n => (n / 1024 / 1024).toFixed(2) + ' MB'
+  console.log('  打包体积（按 project.config.json 的 packOptions 估算）: ' + mb(total))
+  if (total < LIMIT) ok('主包体积 ' + mb(total) + ' < 2 MB 上限')
+  else fail('主包体积超限: ' + mb(total) + ' >= 2 MB')
+
+  biggest.sort((a, b) => b[1] - a[1]).slice(0, 5).forEach(([f, s]) =>
+    console.log('    ' + (s / 1024).toFixed(1) + ' KB  ' + f))
+
+  // miniprogram_npm 是「构建 npm」产物，云端模式运行时依赖它，不能被 ignore
+  const ignoreValues = pkgIgnore.map(i => i.value)
+  if (ignoreValues.indexOf('node_modules') >= 0) ok('node_modules 已排除出打包范围')
+  else fail('node_modules 未排除出打包范围（会白白占用约 5.7 MB）')
+  if (ignoreValues.indexOf('miniprogram_npm') >= 0)
+    fail('miniprogram_npm 被排除出打包范围，云端模式将无法 require 云 SDK')
+  else ok('miniprogram_npm 未被排除（保证云端模式可用）')
+}
 
 console.log('')
 console.log('==================================')

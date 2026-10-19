@@ -42,6 +42,7 @@
 
   <empty
     wx:else
+    icon="/assets/icons/empty-cart.png"
     text="购物车还是空的"
     action-text="去点餐"
     bind:action="goMenu"

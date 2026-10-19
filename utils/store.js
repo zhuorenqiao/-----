@@ -10,6 +10,7 @@ const K_CATS = 'jcc.categories'
 const K_DISHES = 'jcc.dishes'
 const K_ORDERS = 'jcc.orders.'
 const K_SEEDED = 'jcc.seeded'
+const K_SEED_VERSION = 'jcc.seed.version'
 
 function isCloud() {
   return cloudMod.isCloudEnabled()
@@ -94,12 +95,13 @@ function cloudOrderToApp(row) {
 }
 
 // ---------------- 初始化 ----------------
-// 本地模式：首次启动装入示例菜单
-async function initData() {
-  if (isCloud()) return { ok: true }
-  if (wx.getStorageSync(K_SEEDED)) return { ok: true }
-  const cats = seed.CATEGORIES.map(c => ({ id: c.id, name: c.name, sort: c.sort }))
-  const dishes = seed.DISHES.map(d => ({
+function seedCats() {
+  return seed.CATEGORIES.map(c => ({ id: c.id, name: c.name, sort: c.sort }))
+}
+
+function seedDishes() {
+  const now = Date.now()
+  return seed.DISHES.map(d => ({
     id: d.id,
     category_id: d.cat,
     name: d.name,
@@ -110,11 +112,34 @@ async function initData() {
     featured: d.featured,
     status: 'on',
     sort: d.sort,
-    created_at: Date.now()
+    created_at: now
   }))
+}
+
+// 本地模式：首次启动装入示例菜单；种子版本升级时增量补入新分类/菜品，
+// 已存在的记录（含店家改价、改图、下架）一律不覆盖。
+async function initData() {
+  if (isCloud()) return { ok: true }
+  if (!wx.getStorageSync(K_SEEDED)) {
+    localSetCats(seedCats())
+    localSetDishes(seedDishes())
+    wx.setStorageSync(K_SEEDED, '1')
+    wx.setStorageSync(K_SEED_VERSION, seed.VERSION)
+    return { ok: true }
+  }
+  const ver = Number(wx.getStorageSync(K_SEED_VERSION)) || 1
+  if (ver >= seed.VERSION) return { ok: true }
+  const cats = localCats()
+  seedCats().forEach(c => {
+    if (!cats.some(x => String(x.id) === String(c.id))) cats.push(c)
+  })
   localSetCats(cats)
+  const dishes = localDishes()
+  seedDishes().forEach(d => {
+    if (!dishes.some(x => String(x.id) === String(d.id))) dishes.push(d)
+  })
   localSetDishes(dishes)
-  wx.setStorageSync(K_SEEDED, '1')
+  wx.setStorageSync(K_SEED_VERSION, seed.VERSION)
   return { ok: true }
 }
 

@@ -6,8 +6,8 @@
 
 ## 常用命令
 
-- 校验（唯一自动化检查）：`node tests/validate.js` — 静态校验 app.json 结构、JSON/JS 语法、WXML 引用、资源存在性，并检查代码/文案中**不允许出现 Emoji**（含箭头符号等）。改完代码必跑。
-- 安装依赖（仅云端模式需要）：`npm install`（依赖 `@tencent-ai/workbuddy-cloud-sdk`），随后在微信开发者工具中执行「构建 npm」。
+- 校验（唯一自动化检查）：`node tests/validate.js` — 静态校验 app.json 结构、JSON/JS 语法、WXML 引用、资源存在性、代码/文案中**不允许出现 Emoji**、**主包体积 < 2 MB**。改完代码必跑。
+- 安装依赖（仅云端模式需要）：`npm install`（依赖 `@tencent-ai/workbuddy-cloud-sdk`），随后在微信开发者工具中执行「构建 npm」（生成 `miniprogram_npm/`，运行时 SDK 实际从这里加载）。
 - 编译/预览/调试：微信开发者工具导入本目录（`project.config.json` 所在目录，AppID 当前为 `touristappid` 占位）。无 CLI 构建流程，真机调试用开发者工具的预览二维码。
 
 ## 架构
@@ -18,7 +18,7 @@
 - `utils/cloud.js`：懒加载 SDK 客户端。未配置时**不 require SDK、不发网络请求**；初始化失败自动回退本地模式。
 - `utils/store.js`：对页面暴露统一接口（分类/菜品/订单 CRUD + 图片存储）。内部维护两套实现：本地模式用 `wx.getStorageSync`（键 `jcc.categories` / `jcc.dishes` / `jcc.orders.<uid>`），云端模式读写数据库表 `dish_categories` / `dishes` / `orders`（云行结构与本地结构在 `cloudDishToApp` / `appDishToCloud` 等函数间转换）。**修改数据逻辑时两条路径都要改**。
 - 云端 RLS 约定：分类/菜品公开读（写需 authenticated）；订单仅 `owner_id = auth.uid()` 本人可见。图片走云端存储 `shared/<uid>/dishes/`。建表 SQL 见 README.md。
-- 首次启动由 `utils/seed-menu.js` 注入种子数据（5 分类 16 道菜），云端模式在「我的 → 菜品管理」手动点「初始化示例菜单」。
+- 首次启动由 `utils/seed-menu.js` 注入种子数据（5 分类 34 道菜），云端模式在「我的 → 菜品管理」手动点「初始化示例菜单」。`VERSION` 升级时 `store.initData` 只增补缺失 id 的分类/菜品，不覆盖已有记录。
 
 ### 会话与全局状态
 
@@ -42,4 +42,6 @@
 ## 注意事项
 
 - `utils/workbuddy-cloud-diagnostics.js`：vConsole 诊断适配器，包装 wx 请求对象用于排查云端请求，缺失不影响功能。
-- `r_*.txt` / `before.txt` / `resp.txt` / `.tmp-gen/` 为历史存档文件，不属于运行时代码（`.tmp-gen` 已在 `packOptions.ignore` 排除）。
+- `r_*.txt` / `before.txt` / `resp.txt` / `.tmp-gen/` 为历史存档文件，不属于运行时代码（已在 `packOptions.ignore` 排除）。
+- **打包范围（`project.config.json` 的 `packOptions.ignore`）**：`node_modules/`、`tests/`、`scripts/`、`.tmp-gen/`、根目录 `*.md` / `*.txt` / `package*.json` 等本地开发文件全部排除。**绝不能把 `miniprogram_npm/` 加入 ignore** —— 云端模式运行时的 SDK 实际从那里加载（`utils/cloud.js` 里 `require('@tencent-ai/workbuddy-cloud-sdk/miniprogram')` 由构建 npm 后解析到 `miniprogram_npm/`）。新增静态资源时先评估体积：单文件 > 500 KB 优先用远端 URL。
+- `assets/seed/dishes/*.jpg` 已是 480×480 的优化 JPEG，重复压缩反而变大（实测 quality=80 重编码会 +16%）；不要对它跑批量图片压缩工具。
