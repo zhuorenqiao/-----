@@ -64,6 +64,7 @@ function cloudDishToApp(row) {
     image: row.image_path || '',
     sales: row.sales || 0,
     featured: !!row.is_featured,
+    baby: !!row.is_baby,
     status: row.status || 'on',
     sort: row.sort || 0
   }
@@ -77,6 +78,7 @@ function appDishToCloud(dish) {
     price: Number(dish.price) || 0,
     image_path: dish.image || null,
     is_featured: !!dish.featured,
+    is_baby: !!dish.baby,
     status: dish.status || 'on',
     sort: Number(dish.sort) || 0
   }
@@ -110,6 +112,7 @@ function seedDishes() {
     image: seed.dishImage(d.img),
     sales: d.sales,
     featured: d.featured,
+    baby: !!d.baby,
     status: 'on',
     sort: d.sort,
     created_at: now
@@ -270,6 +273,7 @@ async function saveDish(dish) {
       price: price,
       image: dish.image || '',
       featured: !!dish.featured,
+      baby: !!dish.baby,
       status: dish.status || 'on',
       sort: Number(dish.sort) || 0
     })
@@ -299,6 +303,7 @@ async function saveDish(dish) {
       price: price,
       image: dish.image || '',
       featured: !!dish.featured,
+      baby: !!dish.baby,
       status: dish.status || 'on',
       sort: Number(dish.sort) || 0
     })
@@ -314,6 +319,7 @@ async function saveDish(dish) {
     image: dish.image || '',
     sales: 0,
     featured: !!dish.featured,
+    baby: !!dish.baby,
     status: dish.status || 'on',
     sort: Number(dish.sort) || 0,
     created_at: Date.now()

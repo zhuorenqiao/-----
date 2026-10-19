@@ -18,7 +18,8 @@
 - `utils/cloud.js`：懒加载 SDK 客户端。未配置时**不 require SDK、不发网络请求**；初始化失败自动回退本地模式。
 - `utils/store.js`：对页面暴露统一接口（分类/菜品/订单 CRUD + 图片存储）。内部维护两套实现：本地模式用 `wx.getStorageSync`（键 `jcc.categories` / `jcc.dishes` / `jcc.orders.<uid>`），云端模式读写数据库表 `dish_categories` / `dishes` / `orders`（云行结构与本地结构在 `cloudDishToApp` / `appDishToCloud` 等函数间转换）。**修改数据逻辑时两条路径都要改**。
 - 云端 RLS 约定：分类/菜品公开读（写需 authenticated）；订单仅 `owner_id = auth.uid()` 本人可见。图片走云端存储 `shared/<uid>/dishes/`。建表 SQL 见 README.md。
-- 首次启动由 `utils/seed-menu.js` 注入种子数据（5 分类 34 道菜），云端模式在「我的 → 菜品管理」手动点「初始化示例菜单」。`VERSION` 升级时 `store.initData` 只增补缺失 id 的分类/菜品，不覆盖已有记录。
+- 首次启动由 `utils/seed-menu.js` 注入种子数据（5 分类 57 道菜），云端模式在「我的 → 菜品管理」手动点「初始化示例菜单」。`VERSION` 升级时 `store.initData` 只增补缺失 id 的分类/菜品，不覆盖已有记录。
+- 菜品字段 `baby`（云端 `is_baby`）=「宝宝营养餐」，列表卡片图片左下角与详情页名称旁显示粉色 tag；`pages/dish-edit` 可开关。
 
 ### 会话与全局状态
 

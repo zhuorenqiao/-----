@@ -173,7 +173,7 @@ while ((im = imgRe.exec(seedMenu)) !== null) {
   if (exists(p)) ok('种子图片存在: ' + p)
   else fail('种子图片缺失: ' + p)
 }
-if (seedCount === 34) ok('种子菜品 34 道')
+if (seedCount === 57) ok('种子菜品 57 道')
 else fail('种子菜品数量异常: ' + seedCount)
 
 console.log('== 7. 云 SDK 依赖 ==')

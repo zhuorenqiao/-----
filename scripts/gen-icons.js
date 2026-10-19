@@ -152,6 +152,17 @@ function cartDefs(s) { // 购物车（可缩放）
     C(33, 60, 3.2), C(52, 60, 3.2),
   ];
 }
+function bagDefs(s) { // 购物袋（可缩放）
+  const L = (x1, y1, x2, y2) => ({ line: [x1 * s, y1 * s, x2 * s, y2 * s], w: W5 * s });
+  const A = (cx, cy, r, a0, a1) => ({ arc: [cx * s, cy * s, r * s, a0, a1], w: W5 * s });
+  return [
+    L(19, 30, 19, 58), L(62, 30, 62, 58),      // 袋身左右侧线
+    L(19, 30, 62, 30),                          // 袋口
+    A(24, 58, 5, 90, 180), A(57, 58, 5, 0, 90), // 底部圆角
+    L(24, 63, 57, 63),                          // 袋底
+    A(40.5, 30, 10, 180, 360),                  // 提手
+  ];
+}
 const orders = [ // 小票
   { line: [28, 16, 53, 16], w: W5 }, { arc: [28, 20, 4, 180, 270], w: W5 },
   { line: [57, 20, 57, 61], w: W5 }, { arc: [53, 20, 4, 270, 360], w: W5 },
@@ -216,6 +227,7 @@ const jobs = [
   ['plus.png', 96, NEUTRAL, plus],
   ['minus.png', 96, NEUTRAL, minus],
   ['cart-small.png', 96, NEUTRAL, cartDefs(96 / 81)],
+  ['bag-small.png', 96, NEUTRAL, bagDefs(96 / 81)],
   ['empty-cart.png', 192, [0xc9, 0xbf, 0xb1], cartDefs(192 / 81)], // 购物车空状态占位图
   ['edit.png', 96, NEUTRAL, editDefs(96 / 81)],
   ['trash.png', 96, [0xc0, 0x43, 0x2f], trash],

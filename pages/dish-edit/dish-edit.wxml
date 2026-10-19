@@ -51,6 +51,10 @@
       <text class="label">招牌推荐</text>
       <switch color="#E8590C" checked="{{form.featured}}" bindchange="onFeaturedChange" />
     </view>
+    <view class="form-item">
+      <text class="label">宝宝营养餐</text>
+      <switch color="#F2668F" checked="{{form.baby}}" bindchange="onBabyChange" />
+    </view>
   </view>
 
   <!-- 操作 -->

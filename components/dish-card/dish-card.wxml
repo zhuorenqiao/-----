@@ -4,6 +4,7 @@
   <view class="thumb">
     <image class="img" src="{{dish.image_url}}" mode="aspectFill" binderror="onImageError" />
     <view wx:if="{{dish.featured && dish.status === 'on'}}" class="badge">招牌</view>
+    <view wx:if="{{dish.baby && dish.status === 'on'}}" class="tag-baby">宝宝营养餐</view>
     <view wx:if="{{dish.status !== 'on'}}" class="off-mask">已下架</view>
   </view>
   <view class="info">

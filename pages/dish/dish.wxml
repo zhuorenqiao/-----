@@ -9,6 +9,7 @@
     <view class="name-row">
       <text class="dish-name">{{dish.name}}</text>
       <text wx:if="{{dish.featured}}" class="featured-tag">招牌推荐</text>
+      <text wx:if="{{dish.baby}}" class="baby-tag">宝宝营养餐</text>
     </view>
     <view class="price-row">
       <view class="price">
@@ -28,7 +29,7 @@
   <!-- 底部操作栏 -->
   <view class="action-bar">
     <view class="cart-entry {{cartBump ? 'cart-bump' : ''}}" bindtap="onCartTap">
-      <image class="cart-icon" src="/assets/icons/cart-small.png" mode="aspectFit" />
+      <image class="bag-icon" src="/assets/icons/bag-small.png" mode="aspectFit" />
       <view wx:if="{{quantity > 0}}" class="cart-badge">{{quantity}}</view>
     </view>
     <view class="action-btns">

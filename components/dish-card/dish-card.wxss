@@ -107,6 +107,21 @@
   border-radius: 0 0 12rpx 0;
 }
 
+/* 宝宝营养餐标记：粉色 */
+.tag-baby {
+  position: absolute;
+  left: 8rpx;
+  bottom: 8rpx;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #FF9EBB, #F2668F);
+  font-size: 18rpx;
+  line-height: 30rpx;
+  height: 30rpx;
+  padding: 0 10rpx;
+  border-radius: 999rpx;
+  box-shadow: 0 2rpx 6rpx rgba(242, 102, 143, 0.35);
+}
+
 .off-mask {
   position: absolute;
   left: 0;

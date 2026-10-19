@@ -26,7 +26,7 @@
 | 菜品管理 | 菜品上下架 / 编辑 / 删除、分类增删改、云端示例菜单初始化 |
 | 菜品编辑 | 表单 + 图片上传（相册/拍照） |
 
-种子菜单：5 个分类（荤菜热炒 / 素菜时蔬 / 汤羹炖品 / 主食米饭 / 饮品甜点）、34 道家常菜，首次启动自动装入；种子版本升级时增量补入新菜品。
+种子菜单：5 个分类（荤菜热炒 / 素菜时蔬 / 汤羹炖品 / 主食米饭 / 饮品甜点）、57 道家常菜，其中 23 道带「宝宝营养餐」标记（`baby` / 云端 `is_baby`）；首次启动自动装入，种子版本升级时增量补入新菜品。
 
 ## 目录结构
 
@@ -44,7 +44,7 @@
 │   └── workbuddy-cloud-diagnostics.js
 ├── assets/
 │   ├── icons/                       # 统一风格线性图标（tabBar/分类/动作）
-│   └── seed/dishes/                 # 16 张菜品图（压缩后约 30KB/张）
+│   └── seed/dishes/                 # 57 张菜品图（400×400，约 25-30KB/张）
 └── tests/validate.js                # 静态校验脚本：node tests/validate.js
 ```
 
@@ -83,6 +83,7 @@
      image_path TEXT,
      sales INTEGER NOT NULL DEFAULT 0,
      is_featured BOOLEAN NOT NULL DEFAULT false,
+     is_baby BOOLEAN NOT NULL DEFAULT false,
      status TEXT NOT NULL DEFAULT 'on',
      sort INTEGER NOT NULL DEFAULT 0,
      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -133,4 +134,5 @@
 - 几百 KB 级别的内容：放 `assets/seed/` 之外，并尽量用 `https://` 远程地址，云端模式更友好。
 - 任何超过 1 MB 的资源都强烈建议放远端。
 
-`assets/seed/dishes/*.jpg` 已经是 480×480 优化过的 JPEG，重复压缩只会变大，不要再用「图片优化」工具批量处理。
+`assets/seed/dishes/*.jpg` 已经是 400×400 优化过的 JPEG（主包体积受 2MB 限制，不要再放大尺寸），重复压缩会累积失真，不要再用「图片优化」工具批量处理。
+已有云端数据库升级：在 SQL 控制台执行 `ALTER TABLE dishes ADD COLUMN IF NOT EXISTS is_baby BOOLEAN NOT NULL DEFAULT false;`。

@@ -15,6 +15,7 @@ Page({
       description: '',
       sort: '0',
       featured: false,
+      baby: false,
       status: 'on',
       image: ''
     },
@@ -65,6 +66,7 @@ Page({
         description: d.description || '',
         sort: String(d.sort || 0),
         featured: d.featured,
+        baby: !!d.baby,
         status: d.status || 'on',
         image: d.image || ''
       },
@@ -100,6 +102,10 @@ Page({
 
   onFeaturedChange(e) {
     this.setData({ 'form.featured': e.detail.value })
+  },
+
+  onBabyChange(e) {
+    this.setData({ 'form.baby': e.detail.value })
   },
 
   onStatusChange(e) {
@@ -157,6 +163,7 @@ Page({
       price: form.price,
       image: form.image,
       featured: form.featured,
+      baby: form.baby,
       status: form.status,
       sort: form.sort || '0'
     })

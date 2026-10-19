@@ -43,6 +43,15 @@
   padding: 4rpx 12rpx;
 }
 
+.baby-tag {
+  margin-left: 12rpx;
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #FF9EBB, #F2668F);
+  border-radius: 6rpx;
+  padding: 4rpx 12rpx;
+}
+
 .price-row {
   margin-top: 20rpx;
   display: flex;
@@ -125,7 +134,7 @@
   justify-content: center;
 }
 
-.cart-icon {
+.bag-icon {
   width: 146rpx;
   height: 146rpx;
 }
