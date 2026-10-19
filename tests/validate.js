@@ -164,14 +164,35 @@ wxmlFiles.forEach(f => {
 
 console.log('== 6. 种子菜单与图片完整性 ==')
 const seedMenu = fs.readFileSync(path.join(ROOT, 'utils/seed-menu.js'), 'utf8')
+const seedConfig = require(path.join(ROOT, 'utils/config.js'))
+const remoteBase = String(seedConfig.dishImageBase || '').replace(/\/+$/, '')
 const imgRe = /img: '([a-z0-9-]+)'/g
 let im
 let seedCount = 0
+const imgKeys = []
 while ((im = imgRe.exec(seedMenu)) !== null) {
   seedCount += 1
-  const p = 'assets/seed/dishes/' + im[1] + '.jpg'
-  if (exists(p)) ok('种子图片存在: ' + p)
-  else fail('种子图片缺失: ' + p)
+  imgKeys.push(im[1])
+}
+if (remoteBase) {
+  // 远程高清图模式：包内不再打包示例图，改为检查待上传的图源目录
+  console.log('  菜品图来源：' + remoteBase + '/<key>.jpg（远程高清图）')
+  if (fs.existsSync(path.join(ROOT, 'hd-dishes'))) {
+    const missing = imgKeys.filter(k => !fs.existsSync(path.join(ROOT, 'hd-dishes', k + '.jpg')))
+    if (missing.length === 0) ok('远程高清图源齐全（' + imgKeys.length + ' 张）')
+    else fail('远程高清图缺失: ' + missing.join(', '))
+  } else {
+    warn('hd-dishes/ 已清理，跳过远程图源检查')
+  }
+  const stillBundled = fs.existsSync(path.join(ROOT, 'assets/seed/dishes'))
+  if (!stillBundled) ok('包内示例图已移除，主包已瘦身')
+  else warn('assets/seed/dishes 仍存在，会白白占用约 1.6 MB 主包体积')
+} else {
+  imgKeys.forEach(k => {
+    const p = 'assets/seed/dishes/' + k + '.jpg'
+    if (exists(p)) ok('种子图片存在: ' + p)
+    else fail('种子图片缺失: ' + p)
+  })
 }
 if (seedCount === 57) ok('种子菜品 57 道')
 else fail('种子菜品数量异常: ' + seedCount)

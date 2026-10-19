@@ -101,7 +101,7 @@
    );
    ```
    三张表均开启 RLS：`dish_categories` / `dishes` 对 `anon, authenticated` 开放 SELECT，写权限仅 `authenticated`；`orders` 仅允许 `owner_id = auth.uid()` 的行被本人 SELECT/INSERT/UPDATE/DELETE。
-4. 进入小程序「我的 → 菜品管理」，点击「初始化示例菜单」即写入分类、菜品并把包内示例图上传到云端存储。
+4. 进入小程序「我的 → 菜品管理」，点击「初始化示例菜单」即写入分类、菜品与图片地址（配置了 `dishImageBase` 时直接存远程高清图 URL，未配置时才把包内示例图上传到云端存储）。
 
 ## 设计规范
 
@@ -126,7 +126,7 @@
 - `node_modules/` —— 云端模式需在开发者工具中点击「构建 npm」，生成 `miniprogram_npm/` 才是真正随包上线的代码（**绝不能把 `miniprogram_npm/` 也加入 ignore**）。
 - `tests/`、`scripts/` —— 仅本地开发/校验使用。
 - `README.md`、`CODEBUDDY.md`、`package.json`、`package-lock.json`、根目录的 `*.txt` 调试存档。
-- `.tmp-gen/` —— 菜品图原始生成文件。
+- `.tmp-gen/`、`hd-dishes/` —— 菜品图原始生成文件与高清图源，仅本地存档。
 
 如需新增体积较大的静态资源（图片、音视频等），先评估大小再决定是否放在包内：
 
@@ -134,5 +134,13 @@
 - 几百 KB 级别的内容：放 `assets/seed/` 之外，并尽量用 `https://` 远程地址，云端模式更友好。
 - 任何超过 1 MB 的资源都强烈建议放远端。
 
-`assets/seed/dishes/*.jpg` 已经是 400×400 优化过的 JPEG（主包体积受 2MB 限制，不要再放大尺寸），重复压缩会累积失真，不要再用「图片优化」工具批量处理。
+### 示例菜品图：包内 or 远程高清
+
+`utils/config.js` 的 `dishImageBase` 决定示例菜品图来源：
+
+- **留空（默认）**：使用包内 `assets/seed/dishes/*.jpg`（380px，约 1.6 MB），离线可用，但主包几乎占满。
+- **填入前缀**（如 `https://cdn.example.com/dishes`）：菜品图改为 `<前缀>/<菜品 img>.jpg`，即 `hd-dishes/` 下的 1000×918 高清图；确认线上可用后可删除 `assets/seed/dishes/`，主包体积降到约 0.2 MB。
+
+高清图源在 `hd-dishes/`（57 张，约 9.7 MB），由 `scripts/build-hd-dishes.ps1` 从 AI 原始图 `hd-dishes/raw/<key>/*.png` 生成（裁掉右下角水印 → 缩放至 1000px → JPEG q86）。当前高清图托管在 CloudBase 静态托管：`https://caidan-1-d9glqugbu5be15778-1316655607.tcloudbaseapp.com/dishes/`（更新图片时把新图上传到该环境的 `dishes/` 目录）。切换后需把该域名加入微信公众平台「开发设置 → 服务器域名 → downloadFile 合法域名」，否则正式版不显示图片。种子 `VERSION` 升级时会把仍是旧包内图的菜品主图换成新地址，店家自己换过的图不受影响。
+
 已有云端数据库升级：在 SQL 控制台执行 `ALTER TABLE dishes ADD COLUMN IF NOT EXISTS is_baby BOOLEAN NOT NULL DEFAULT false;`。

@@ -138,10 +138,21 @@ async function initData() {
   })
   localSetCats(cats)
   const dishes = localDishes()
+  let changed = false
   seedDishes().forEach(d => {
-    if (!dishes.some(x => String(x.id) === String(d.id))) dishes.push(d)
+    const old = dishes.filter(x => String(x.id) === String(d.id))[0]
+    if (!old) {
+      dishes.push(d)
+      changed = true
+      return
+    }
+    // 仍是包内示例图的菜品跟随种子升级（换成远程高清图），店家自定义过的图保留
+    if (seed.isBundledSeedImage(old.image) && old.image !== d.image) {
+      old.image = d.image
+      changed = true
+    }
   })
-  localSetDishes(dishes)
+  if (changed) localSetDishes(dishes)
   wx.setStorageSync(K_SEED_VERSION, seed.VERSION)
   return { ok: true }
 }
@@ -499,17 +510,20 @@ async function bootstrapMenu(onProgress) {
 
   for (const d of seed.DISHES) {
     const categoryId = catIdMap[d.cat]
-    let imagePath = null
-    try {
-      const buffer = wx.getFileSystemManager().readFileSync(seed.dishImage(d.img))
-      const path = cloud.storage.sharedPath(
-        s.id,
-        'dishes/' + d.id + '-' + Math.random().toString(36).slice(2, 6) + '.jpg'
-      )
-      const up = await cloud.storage.upload(path, buffer, { contentType: 'image/jpeg', upsert: false })
-      if (!up.error) imagePath = path
-    } catch (e) {
-      // 图片上传失败时菜品仍可建立（后续可补图）
+    // 配置了远程高清图时直接存 URL，无需上传云端存储
+    let imagePath = seed.useRemoteImages() ? seed.dishImage(d.img) : null
+    if (!imagePath) {
+      try {
+        const buffer = wx.getFileSystemManager().readFileSync(seed.dishImage(d.img))
+        const path = cloud.storage.sharedPath(
+          s.id,
+          'dishes/' + d.id + '-' + Math.random().toString(36).slice(2, 6) + '.jpg'
+        )
+        const up = await cloud.storage.upload(path, buffer, { contentType: 'image/jpeg', upsert: false })
+        if (!up.error) imagePath = path
+      } catch (e) {
+        // 图片上传失败时菜品仍可建立（后续可补图）
+      }
     }
     if (categoryId) {
       await cloud.database.from('dishes').insert({

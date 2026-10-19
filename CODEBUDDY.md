@@ -45,4 +45,7 @@
 - `utils/workbuddy-cloud-diagnostics.js`：vConsole 诊断适配器，包装 wx 请求对象用于排查云端请求，缺失不影响功能。
 - `r_*.txt` / `before.txt` / `resp.txt` / `.tmp-gen/` 为历史存档文件，不属于运行时代码（已在 `packOptions.ignore` 排除）。
 - **打包范围（`project.config.json` 的 `packOptions.ignore`）**：`node_modules/`、`tests/`、`scripts/`、`.tmp-gen/`、根目录 `*.md` / `*.txt` / `package*.json` 等本地开发文件全部排除。**绝不能把 `miniprogram_npm/` 加入 ignore** —— 云端模式运行时的 SDK 实际从那里加载（`utils/cloud.js` 里 `require('@tencent-ai/workbuddy-cloud-sdk/miniprogram')` 由构建 npm 后解析到 `miniprogram_npm/`）。新增静态资源时先评估体积：单文件 > 500 KB 优先用远端 URL。
-- `assets/seed/dishes/*.jpg` 已是 480×480 的优化 JPEG，重复压缩反而变大（实测 quality=80 重编码会 +16%）；不要对它跑批量图片压缩工具。
+- **示例菜品图两套来源**：`utils/config.js` 的 `dishImageBase` 留空 = 包内 `assets/seed/dishes/*.jpg`（380×380，约 1.6 MB）；填 `https://…/dishes` = 远程高清图（`hd-dishes/<key>.jpg`，1000×918，q86），此时包内图片可删。远程域需加进微信后台 downloadFile 合法域名。
+- **当前已启用远程高清图**：`dishImageBase = https://caidan-1-d9glqugbu5be15778-1316655607.tcloudbaseapp.com/dishes`（CloudBase 环境 `caidan-1-d9glqugbu5be15778` 的静态托管 `dishes/` 目录），包内 `assets/seed/dishes/` 已删除，主包约 0.3 MB。换图流程：重跑 `scripts/build-hd-dishes.ps1` → 把 `hd-dishes/*.jpg` 上传到该托管目录 → 若文件名不变 CDN 会按缓存刷新。
+- `hd-dishes/raw/<key>/*.png` 是 AI 生成的原始图（1024×1024，右下角带生成水印），`scripts/build-hd-dishes.ps1` 负责裁掉水印、缩放到 1000px、转 JPEG。**不要直接拿 raw 图上线**，也不要用通用图片压缩工具重压 `hd-dishes/*.jpg`。
+- 种子图升级走 `VERSION`：`utils/seed-menu.js` 的 `VERSION` +1 后，`store.initData` 会把"仍是包内示例图"的菜品主图刷成新地址，店家自定义过的图保留。

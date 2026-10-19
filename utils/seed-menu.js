@@ -1,10 +1,17 @@
 // 示例菜单种子数据（家常菜餐厅）
-// 图片为包内资源 assets/seed/dishes/*.jpg：
-//   - 本地模式：路径直接用于 <image> 展示；
-//   - 云端模式：首次进入管理页点击「上传示例图片」后上传至云端存储并回写记录。
-// VERSION 变更时会由 store.initData 把新增的分类/菜品增量并入已有本地菜单（不覆盖用户改动）。
+// 示例菜品图有两种来源，由 utils/config.js 的 dishImageBase 决定：
+//   - 留空：使用包内资源 assets/seed/dishes/*.jpg（380px，体积小，离线可用）；
+//   - 填入远程前缀（如 https://cdn.example.com/dishes）：使用 1000px 高清图，
+//     文件名与菜品 img 字段一致，主包因此不需要再打包 1.6 MB 图片。
+// 云端模式下图片可直接用远程 URL，无需再上传到云端存储。
+// VERSION 变更时会由 store.initData 增量升级：补入新增分类/菜品，并刷新仍是
+// 包内示例图的菜品主图（店家自己换过的图不动）。
 
-const VERSION = 3
+const config = require('./config.js')
+
+const VERSION = 5
+
+const LOCAL_IMAGE_BASE = '/assets/seed/dishes/'
 
 const CATEGORIES = [
   { id: 'c1', name: '荤菜热炒', sort: 1 },
@@ -74,13 +81,30 @@ const DISHES = [
   { id: 'd503', cat: 'c5', name: '鲜榨玉米汁', desc: '现榨慢煮，香浓顺滑', price: 12, img: 'yumizhi', sales: 167, featured: false, sort: 3 }
 ]
 
+function remoteBase() {
+  return String(config.dishImageBase || '').replace(/\/+$/, '')
+}
+
+// 菜品图地址：优先远程高清图，未配置时回退包内示例图
 function dishImage(imgKey) {
-  return '/assets/seed/dishes/' + imgKey + '.jpg'
+  return (remoteBase() || LOCAL_IMAGE_BASE) + imgKey + '.jpg'
+}
+
+// 是否使用远程高清图
+function useRemoteImages() {
+  return !!remoteBase()
+}
+
+// 是否是「包内示例图」路径（用于判断菜品主图是否被店家改过）
+function isBundledSeedImage(path) {
+  return typeof path === 'string' && path.indexOf(LOCAL_IMAGE_BASE) === 0
 }
 
 module.exports = {
   VERSION,
   CATEGORIES,
   DISHES,
-  dishImage
+  dishImage,
+  useRemoteImages,
+  isBundledSeedImage
 }
