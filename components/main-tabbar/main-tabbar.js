@@ -13,7 +13,7 @@ Component({
     cartCount: 0,
     bump: false,
     color: '#B9B1A4',
-    selectedColor: '#B4531F',
+    selectedColor: '#E8590C',
     list: [
       { text: '首页', icon: '/assets/icons/tab-home.png', activeIcon: '/assets/icons/tab-home-active.png' },
       { text: '点餐', icon: '/assets/icons/tab-menu.png', activeIcon: '/assets/icons/tab-menu-active.png' },

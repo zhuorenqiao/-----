@@ -5,10 +5,11 @@ page {
 
   /* 操作色：朱赭 / 点睛色：朱赭 */
   --ink: #211E1A;
-  --primary: #B4531F;
-  --primary-press: #93411B;
-  --accent: #B4531F;
-  --accent-bg: #F6EDE3;
+  --primary: #E8590C;
+  --primary-press: #C74A08;
+  --accent: #E8590C;
+  --accent-bg: #FCEDE3;
+  --primary-bg: #FCEDE3;
   --gold: #B98A2F;
   --text-main: #26221C;
   --text-sub: #8A8478;

@@ -3,6 +3,7 @@
   "usingComponents": {
     "dish-card": "/components/dish-card/dish-card",
     "cart-bar": "/components/cart-bar/cart-bar",
+    "cart-sheet": "/components/cart-sheet/cart-sheet",
     "fly-ball": "/components/fly-ball/fly-ball"
   }
 }

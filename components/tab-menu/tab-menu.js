@@ -15,6 +15,8 @@ Component({
     quantities: {},
     cartCount: 0,
     cartTotal: 0,
+    // 已选菜品弹层
+    sheetOpen: false,
     // 左侧/右侧 scroll-view 的定位锚点
     intoCat: '',
     intoSection: ''
@@ -23,6 +25,8 @@ Component({
     // 由宿主页（pages/main）在 tab 激活/初始化时调用
     onShow() {
       if (!auth.requireLogin()) return
+      // 切走再回来时弹层不再保留
+      if (this.data.sheetOpen) this.setData({ sheetOpen: false })
       cart.refreshBadge()
       this.loadData()
     },
@@ -44,11 +48,10 @@ Component({
         return
       }
       const allDishes = await store.resolveImages(allRes.data)
-      let active = this.data.activeCategory
       // 接收首页「本店分类」跳转指定的分类（切 tab 不支持带参数，走 globalData）
       const app = getApp()
-      if (this.pendingCategory || app.globalData.pendingCategory) {
-        active = this.pendingCategory || app.globalData.pendingCategory
+      const pending = this.pendingCategory || app.globalData.pendingCategory
+      if (pending) {
         this.pendingCategory = ''
         app.globalData.pendingCategory = ''
       }
@@ -58,46 +61,91 @@ Component({
         name: c.name,
         dishes: allDishes.filter(d => String(d.category_id) === String(c.id))
       }))
-      const found = sections.find(s => s.id === String(active))
-      const target = found || sections[0]
-      const activeId = target ? target.id : ''
+      // 仅当外部明确指定分类时才做定位；从详情页返回时列表仍停留在原位，
+      // 不能再按“当前高亮分类顶部”重新锚定，否则页面会跳走
+      const jumpTo = pending
+        ? sections.find(s => s.id === String(pending))
+        : null
+      let activeId = jumpTo ? jumpTo.id : String(this.data.activeCategory || '')
+      if (!sections.some(s => s.id === activeId)) {
+        activeId = sections.length ? sections[0].id : ''
+      }
+      const target = sections.find(s => s.id === activeId)
       const categories = sections.map(s => ({
         id: s.id,
         name: s.name,
         active: s.id === activeId
       }))
+      this.scrollLockUntil = jumpTo ? Date.now() + 600 : 0
       this.setData({
         categories: categories,
         sections: sections,
         activeCategory: activeId,
         activeCategoryName: target ? target.name : ''
       })
-      // 指定进入某分类时，右侧直接定位到该区块
-      if (found) {
-        this.scrollLockUntil = Date.now() + 600
+      if (jumpTo) {
+        // 指定进入某分类时，右侧直接定位到该区块
         this.setData({ intoSection: '' })
         wx.nextTick(() => this.setData({ intoSection: 'sec-' + activeId }))
+      } else if (this.data.intoSection) {
+        // 保留原位：清掉上次的锚点，避免列表重建后再次触发 scroll-into-view
+        this.setData({ intoSection: '' })
       }
       this.refreshQuantities()
       this.measureSections()
-      // 图片等异步渲染后兜底再测一次，保证联动阈值准确
-      setTimeout(() => this.measureSections(), 800)
+      // 图片等异步渲染后兜底再测一次，并按真实滚动位置校正高亮
+      setTimeout(() => {
+        this.measureSections(scrollTop => {
+          if (!jumpTo) this.applyScrollSync(scrollTop)
+        })
+      }, 800)
     },
 
-    // 缓存右侧每个分类区块相对滚动容器的顶部偏移，供滚动联动计算
-    measureSections() {
+    // 缓存右侧每个分类区块相对滚动内容顶部的偏移，供滚动联动计算
+    measureSections(cb) {
       const q = wx.createSelectorQuery().in(this)
       q.select('.dish-side').boundingClientRect()
+      q.select('.dish-side').scrollOffset()
       q.selectAll('.cat-section').boundingClientRect()
       q.exec(res => {
-        if (!res || !res[0] || !res[1] || !res[1].length) return
+        if (!res || !res[0] || !res[1] || !res[2] || !res[2].length) return
         const baseTop = res[0].top
-        this.sectionTops = res[1].map(r => ({
+        // boundingClientRect 是视口坐标，需加回当前 scrollTop 才是内容偏移；
+        // 否则从详情页返回（滚动位置非 0）时测出的锚点会整体偏移，导致联动错乱
+        const scrollTop = res[1].scrollTop || 0
+        this.sectionTops = res[2].map(r => ({
           id: String(r.id || '').replace(/^sec-/, ''),
-          top: r.top - baseTop
+          top: r.top - baseTop + scrollTop
         }))
         this.scrollViewH = res[0].height
+        this.scrollHeight = res[1].scrollHeight
+        this.lastScrollTop = scrollTop
+        if (typeof cb === 'function') cb(scrollTop)
       })
+    },
+
+    // 按滚动位置推算应高亮的分类并同步左侧
+    applyScrollSync(scrollTop, scrollHeight) {
+      const tops = this.sectionTops
+      if (!tops || !tops.length) return
+      if (this.pendingTap) return
+      if (this.scrollLockUntil && Date.now() < this.scrollLockUntil) return
+      scrollTop = scrollTop || 0
+      const totalH = scrollHeight || this.scrollHeight
+      let idx = 0
+      for (let i = 0; i < tops.length; i++) {
+        if (tops[i].top <= scrollTop + 10) idx = i
+        else break
+      }
+      // 滚到底部时强制定位到最后一个分类（末尾分类内容不足一屏的场景）
+      if (this.scrollViewH && totalH &&
+        scrollTop + this.scrollViewH >= totalH - 5) {
+        idx = tops.length - 1
+      }
+      const id = tops[idx].id
+      if (id && id !== this.data.activeCategory) {
+        this.syncActive(id)
+      }
     },
 
     // 右侧滚动时，同步左侧选中分类（某分类滑完后继续滑即进入下一分类）
@@ -122,20 +170,7 @@ Component({
       if (this.scrollLockUntil && now < this.scrollLockUntil) return
       if (this.lastSyncT && now - this.lastSyncT < 60) return
       this.lastSyncT = now
-      let idx = 0
-      for (let i = 0; i < tops.length; i++) {
-        if (tops[i].top <= scrollTop + 10) idx = i
-        else break
-      }
-      // 滚到底部时强制定位到最后一个分类（末尾分类内容不足一屏的场景）
-      if (this.scrollViewH && d.scrollHeight &&
-        scrollTop + this.scrollViewH >= d.scrollHeight - 5) {
-        idx = tops.length - 1
-      }
-      const id = tops[idx].id
-      if (id && id !== this.data.activeCategory) {
-        this.syncActive(id)
-      }
+      this.applyScrollSync(scrollTop, d.scrollHeight)
     },
 
     // 同步左侧选中态，并让左侧菜单滚动到当前项可见
@@ -273,11 +308,39 @@ Component({
       this.flying = false
     },
 
+    openSheet() {
+      if (!cart.count()) {
+        wx.showToast({ title: '购物车还是空的', icon: 'none' })
+        return
+      }
+      this.setData({ sheetOpen: true })
+    },
+
+    closeSheet() {
+      if (!this.data.sheetOpen) return
+      this.setData({ sheetOpen: false })
+    },
+
     onCartTap() {
-      nav.goTab(2)
+      if (this.data.sheetOpen) {
+        this.closeSheet()
+        return
+      }
+      this.openSheet()
+    },
+
+    onSheetClose() {
+      this.closeSheet()
+    },
+
+    // 弹层内增减/清空后，同步菜品卡片数量与底栏合计
+    onSheetChange() {
+      this.refreshQuantities()
+      if (!cart.count()) this.closeSheet()
     },
 
     onCheckout() {
+      this.closeSheet()
       nav.goTab(2)
     }
   }

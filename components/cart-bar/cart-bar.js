@@ -4,7 +4,9 @@ Component({
     count: { type: Number, value: 0 },
     total: { type: Number, value: 0 },
     buttonText: { type: String, value: '去结算' },
-    showCart: { type: Boolean, value: true }
+    showCart: { type: Boolean, value: true },
+    // 作为已选菜品弹层底栏时使用：纯白无缝、去掉分隔线与投影
+    flat: { type: Boolean, value: false }
   },
   data: {
     totalText: '0.00',

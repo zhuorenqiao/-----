@@ -9,7 +9,7 @@
   >
     <view class="icon-wrap {{index === 2 && bump ? 'icon-bump' : ''}}">
       <image
-        class="tab-icon"
+        class="tab-icon {{selected === index ? 'tab-icon-active' : ''}}"
         src="{{selected === index ? item.activeIcon : item.icon}}"
         mode="aspectFit"
       />

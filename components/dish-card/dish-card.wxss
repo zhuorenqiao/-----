@@ -1,20 +1,27 @@
 .card {
   background: var(--bg-card);
-  border-radius: 16rpx;
+  border-radius: 18rpx;
   overflow: hidden;
 }
 
 /* ---------- 横排（点餐列表） ---------- */
 .card-list {
   display: flex;
-  padding: 24rpx;
-  margin-bottom: 20rpx;
+  flex-direction: column;
+  padding: 20rpx;
+  margin-bottom: 18rpx;
+  box-shadow: 0 2rpx 10rpx rgba(43, 38, 32, 0.04);
+}
+
+.card-list .main {
+  display: flex;
+  min-width: 0;
 }
 
 .card-list .thumb {
-  width: 180rpx;
-  height: 180rpx;
-  border-radius: 12rpx;
+  width: 208rpx;
+  height: 156rpx;
+  border-radius: 14rpx;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -32,23 +39,27 @@
 .card-list .name {
   font-size: 30rpx;
   font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.4;
 }
 
 .card-list .desc {
   font-size: 22rpx;
+  line-height: 1.5;
   color: var(--text-sub);
   margin-top: 6rpx;
-  min-height: 60rpx;
 }
 
 .card-list .sales {
   font-size: 20rpx;
   color: var(--text-light);
-  margin-top: 8rpx;
+  margin-top: auto;
+  padding-top: 8rpx;
 }
 
+/* 价格与步进器独占一行，铺满卡片宽度 */
 .card-list .bottom {
-  margin-top: auto;
+  margin-top: 14rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -74,6 +85,12 @@
 .card-grid .name {
   font-size: 28rpx;
   font-weight: 600;
+}
+
+.card-grid .desc {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  margin-top: 6rpx;
 }
 
 .card-grid .sales {
@@ -136,14 +153,22 @@
   justify-content: center;
 }
 
+.price {
+  display: flex;
+  align-items: baseline;
+  color: var(--accent);
+}
+
 .price .sym {
-  font-size: 22rpx;
+  font-size: 24rpx;
+  font-weight: 600;
 }
 
 .price .num {
-  font-size: 34rpx;
+  font-size: 38rpx;
   font-weight: 600;
   font-family: var(--font-display);
+  line-height: 1.1;
 }
 
 .card-grid .name {

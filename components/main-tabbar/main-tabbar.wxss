@@ -39,6 +39,11 @@
   height: 48rpx;
 }
 
+/* 选中态图标与主色（橙）对齐 */
+.tab-icon-active {
+  filter: saturate(1.45) brightness(1.12) hue-rotate(-6deg);
+}
+
 /* 飞入动画落袋时的弹跳反馈 */
 .icon-bump {
   animation: icon-bump 0.5s ease;

@@ -54,7 +54,7 @@
           </view>
         </view>
         <view class="a-actions">
-          <switch color="#B4531F" checked="{{item.status === 'on'}}" bindchange="onToggleStatus" data-id="{{item.id}}" />
+          <switch color="#E8590C" checked="{{item.status === 'on'}}" bindchange="onToggleStatus" data-id="{{item.id}}" />
           <view class="a-btns">
             <view class="a-btn" bindtap="onEditDish" data-id="{{item.id}}">
               <image src="/assets/icons/edit.png" mode="aspectFit" />

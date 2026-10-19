@@ -1,12 +1,14 @@
-<view class="cart-bar">
+<view class="cart-bar {{flat ? 'bar-flat' : ''}}">
   <view class="bar-left" bindtap="onCartTap">
     <view wx:if="{{showCart}}" class="cart-icon-wrap {{bump ? 'icon-bump' : ''}}">
-      <image class="cart-icon" src="/assets/icons/cart-small.png" mode="aspectFit" />
+      <image class="cart-icon" src="/assets/icons/bag-small.png" mode="aspectFit" />
       <view wx:if="{{count > 0}}" class="badge">{{count > 99 ? '99+' : count}}</view>
     </view>
     <view class="total-box">
-      <text class="total-label">合计</text>
-      <text class="total-price">¥{{totalText}}</text>
+      <view class="total-price">
+        <text class="sym">¥</text><text class="num">{{totalText}}</text>
+      </view>
+      <text class="total-sub">已选 {{count}} 份</text>
     </view>
   </view>
   <view class="checkout-btn" hover-class="btn-hover" bindtap="onCheckout">{{buttonText}}</view>

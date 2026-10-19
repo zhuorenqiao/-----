@@ -1,0 +1,128 @@
+/* 已选菜品弹层：底部升起，面板底边紧贴宿主页底部栏顶部 */
+.sheet-root {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 120;
+  visibility: hidden;
+  /* 收起时等位移动画播完再隐藏 */
+  transition: visibility 0s linear 0.3s;
+}
+
+.sheet-show {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.sheet-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(33, 30, 26, 0.42);
+  opacity: 0;
+  transition: opacity 0.26s ease-out;
+}
+
+.sheet-show .sheet-mask {
+  opacity: 1;
+}
+
+.sheet-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 56vh;
+  background: #FFFFFF;
+  border-radius: 28rpx 28rpx 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(110%);
+  transition: transform 0.28s cubic-bezier(0.25, 0.8, 0.3, 1);
+}
+
+.sheet-show .sheet-panel {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 72rpx;
+  height: 8rpx;
+  border-radius: 4rpx;
+  background: #E6E0D6;
+  margin: 16rpx auto 0;
+  flex-shrink: 0;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 32rpx 16rpx;
+  flex-shrink: 0;
+}
+
+.sheet-title {
+  font-family: var(--font-display);
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 1rpx;
+}
+
+.sheet-clear {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  padding: 8rpx 0 8rpx 24rpx;
+}
+
+.sheet-list {
+  flex: 1;
+  min-height: 0;
+  padding: 4rpx 24rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.sheet-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx;
+  margin-bottom: 16rpx;
+  background: var(--bg-page);
+  border-radius: 18rpx;
+}
+
+.sheet-thumb {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 16rpx;
+  background: var(--bg-wash);
+  flex-shrink: 0;
+}
+
+.sheet-info {
+  flex: 1;
+  min-width: 0;
+  margin-left: 18rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.35;
+}
+
+.sheet-price {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1.2;
+}

@@ -8,6 +8,7 @@ page {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: var(--bg-page);
 }
 
 .menu-body {
@@ -24,13 +25,19 @@ page {
 }
 
 .cat-item {
-  padding: 36rpx 16rpx;
-  text-align: center;
+  height: 112rpx;
+  padding: 0 14rpx;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
 }
 
 .cat-item .cat-name {
   font-size: 26rpx;
+  line-height: 1.35;
+  text-align: center;
   color: var(--text-sub);
 }
 
@@ -39,7 +46,7 @@ page {
 }
 
 .cat-active .cat-name {
-  color: var(--ink);
+  color: var(--text-main);
   font-weight: 600;
 }
 
@@ -50,7 +57,7 @@ page {
   top: 50%;
   transform: translateY(-50%);
   width: 6rpx;
-  height: 32rpx;
+  height: 34rpx;
   border-radius: 0 4rpx 4rpx 0;
   background: var(--accent);
 }
@@ -59,22 +66,22 @@ page {
 .dish-side {
   flex: 1;
   height: 100%;
-  /* 给底部 cart-bar(110rpx) 留出空间 */
-  padding-bottom: 120rpx;
+  /* 给底部 cart-bar(112rpx) 留出空间 */
+  padding-bottom: 118rpx;
   box-sizing: border-box;
 }
 
 .dish-wrap {
-  padding: 24rpx 24rpx 160rpx;
+  padding: 4rpx 20rpx 150rpx;
 }
 
 .cat-title {
   font-family: var(--font-display);
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: 600;
   color: var(--text-main);
-  letter-spacing: 2rpx;
-  padding: 8rpx 4rpx 20rpx;
+  letter-spacing: 1rpx;
+  padding: 22rpx 6rpx 16rpx;
 }
 
 .sec-empty {

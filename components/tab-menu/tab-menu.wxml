@@ -57,8 +57,17 @@
     count="{{cartCount}}"
     total="{{cartTotal}}"
     button-text="去结算"
+    flat="{{sheetOpen}}"
     bind:cart="onCartTap"
     bind:checkout="onCheckout"
+  />
+
+  <!-- 已选菜品弹层：面板底边贴住购物车栏顶部 -->
+  <cart-sheet
+    show="{{sheetOpen}}"
+    bottom="{{224}}"
+    bind:close="onSheetClose"
+    bind:change="onSheetChange"
   />
 
   <!-- 抛物线飞入购物车动画 -->

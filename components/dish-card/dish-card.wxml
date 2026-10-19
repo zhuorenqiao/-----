@@ -1,25 +1,51 @@
 <wxs src="../../utils/money.wxs" module="fmt" />
 
 <view class="card {{layout === 'grid' ? 'card-grid' : 'card-list'}}" bindtap="onTap">
-  <view class="thumb">
-    <image class="img" src="{{dish.image_url}}" mode="aspectFill" binderror="onImageError" />
-    <view wx:if="{{dish.featured && dish.status === 'on'}}" class="badge">招牌</view>
-    <view wx:if="{{dish.baby && dish.status === 'on'}}" class="tag-baby">宝宝营养餐</view>
-    <view wx:if="{{dish.status !== 'on'}}" class="off-mask">已下架</view>
-  </view>
-  <view class="info">
-    <view class="name-row">
-      <text class="name ellipsis">{{dish.name}}</text>
+  <!-- 点餐列表：上行「图片 + 名称/描述/月售」，下行「价格 + 步进器」 -->
+  <block wx:if="{{layout !== 'grid'}}">
+    <view class="main">
+      <view class="thumb">
+        <image class="img" src="{{dish.image_url}}" mode="aspectFill" binderror="onImageError" />
+        <view wx:if="{{dish.featured && dish.status === 'on'}}" class="badge">招牌</view>
+        <view wx:if="{{dish.baby && dish.status === 'on'}}" class="tag-baby">宝宝营养餐</view>
+        <view wx:if="{{dish.status !== 'on'}}" class="off-mask">已下架</view>
+      </view>
+      <view class="info">
+        <text class="name ellipsis">{{dish.name}}</text>
+        <view wx:if="{{showDesc && dish.description}}" class="desc ellipsis2">{{dish.description}}</view>
+        <view class="sales">月售 {{dish.sales || 0}}</view>
+      </view>
     </view>
-    <view wx:if="{{showDesc && dish.description}}" class="desc ellipsis2">{{dish.description}}</view>
-    <view class="sales">月售 {{dish.sales || 0}}</view>
     <view class="bottom">
       <view class="price">
         <text class="sym">¥</text><text class="num">{{fmt.money(dish.price)}}</text>
       </view>
       <view class="action" catchtap="noop">
-        <stepper value="{{quantity}}" dish-id="{{dish.id}}" compact="{{layout === 'grid'}}" bind:change="onChange" />
+        <stepper value="{{quantity}}" dish-id="{{dish.id}}" bind:change="onChange" />
       </view>
     </view>
-  </view>
+  </block>
+
+  <!-- 首页网格：竖排封面卡片 -->
+  <block wx:else>
+    <view class="thumb">
+      <image class="img" src="{{dish.image_url}}" mode="aspectFill" binderror="onImageError" />
+      <view wx:if="{{dish.featured && dish.status === 'on'}}" class="badge">招牌</view>
+      <view wx:if="{{dish.baby && dish.status === 'on'}}" class="tag-baby">宝宝营养餐</view>
+      <view wx:if="{{dish.status !== 'on'}}" class="off-mask">已下架</view>
+    </view>
+    <view class="info">
+      <text class="name ellipsis">{{dish.name}}</text>
+      <view wx:if="{{showDesc && dish.description}}" class="desc ellipsis2">{{dish.description}}</view>
+      <view class="sales">月售 {{dish.sales || 0}}</view>
+      <view class="bottom">
+        <view class="price">
+          <text class="sym">¥</text><text class="num">{{fmt.money(dish.price)}}</text>
+        </view>
+        <view class="action" catchtap="noop">
+          <stepper value="{{quantity}}" dish-id="{{dish.id}}" compact bind:change="onChange" />
+        </view>
+      </view>
+    </view>
+  </block>
 </view>

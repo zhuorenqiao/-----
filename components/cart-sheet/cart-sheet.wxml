@@ -1,0 +1,25 @@
+<wxs src="../../utils/money.wxs" module="fmt" />
+
+<view class="sheet-root {{show ? 'sheet-show' : ''}}">
+  <view class="sheet-mask" bindtap="onMaskTap" catchtouchmove="noop"></view>
+  <view
+    class="sheet-panel"
+    style="bottom: calc({{bottom}}rpx + env(safe-area-inset-bottom));"
+  >
+    <view class="sheet-handle"></view>
+    <view class="sheet-head">
+      <text class="sheet-title">已选菜品</text>
+      <text class="sheet-clear" bindtap="onClearTap">清空</text>
+    </view>
+    <scroll-view class="sheet-list" scroll-y>
+      <view class="sheet-item" wx:for="{{items}}" wx:key="id">
+        <image class="sheet-thumb" src="{{item.image_url}}" mode="aspectFill" />
+        <view class="sheet-info">
+          <text class="sheet-name ellipsis">{{item.name}}</text>
+          <view class="sheet-price">¥{{fmt.money(item.price)}}</view>
+        </view>
+        <stepper value="{{item.quantity}}" dish-id="{{item.id}}" bind:change="onQtyChange" />
+      </view>
+    </scroll-view>
+  </view>
+</view>

@@ -27,14 +27,27 @@
 .name-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.name-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .dish-name {
   font-size: 40rpx;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .featured-tag {
+  flex-shrink: 0;
   margin-left: 16rpx;
   font-size: 20rpx;
   color: #FFFFFF;
@@ -44,6 +57,7 @@
 }
 
 .baby-tag {
+  flex-shrink: 0;
   margin-left: 12rpx;
   font-size: 20rpx;
   color: #FFFFFF;
@@ -71,6 +85,8 @@
 .meta {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  margin-left: 16rpx;
 }
 
 .meta-tag {
@@ -120,23 +136,30 @@
   padding-left: 28rpx;
   padding-right: 28rpx;
   box-sizing: border-box;
-  z-index: 100;
+  /* 高于已选菜品弹层遮罩(120)，作为弹层底栏时保持常亮可点 */
+  z-index: 140;
+}
+
+/* 弹层打开时与白色面板无缝拼接 */
+.action-flat {
+  box-shadow: none;
 }
 
 .cart-entry {
   position: relative;
-  width: 84rpx;
-  height: 84rpx;
-  border-radius: 50%;
-  background: var(--primary-bg);
+  width: 76rpx;
+  height: 76rpx;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  margin-right: 20rpx;
 }
 
 .bag-icon {
-  width: 146rpx;
-  height: 146rpx;
+  width: 52rpx;
+  height: 52rpx;
+  filter: brightness(0) saturate(100%) invert(43%) sepia(92%) saturate(2400%) hue-rotate(357deg) brightness(92%) contrast(94%);
 }
 
 .cart-badge {
@@ -159,29 +182,43 @@
 .action-btns {
   flex: 1;
   display: flex;
+  justify-content: flex-end;
 }
 
-.btn-add, .btn-buy {
-  flex: 1;
-  height: 84rpx;
+/* 价格行右侧的加购按钮与底栏购买按钮：等宽胶囊 */
+.btn-add,
+.btn-buy {
+  flex-shrink: 0;
+  width: 204rpx;
+  height: 68rpx;
+  box-sizing: border-box;
   border-radius: 999rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30rpx;
+  font-size: 26rpx;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 数量步进器占位：与加购按钮同宽右对齐，避免切换时价格行跳动 */
+.stepper-slot {
+  flex-shrink: 0;
+  width: 204rpx;
+  margin-left: 20rpx;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .btn-add {
+  margin-left: 20rpx;
   background: var(--primary-bg);
   color: var(--primary);
-  margin-right: 20rpx;
 }
 
 .btn-buy {
   background: var(--primary);
   color: #FFFFFF;
-  flex: 2;
 }
 
 .btn-hover {

@@ -10,7 +10,8 @@ Page({
     dish: null,
     categoryName: '',
     quantity: 0,
-    cartBump: false
+    cartBump: false,
+    sheetOpen: false
   },
 
   onLoad(options) {
@@ -19,6 +20,7 @@ Page({
 
   onShow() {
     if (!auth.requireLogin()) return
+    if (this.data.sheetOpen) this.setData({ sheetOpen: false })
     cart.refreshBadge()
     this.loadDish()
   },
@@ -125,7 +127,27 @@ Page({
     wx.previewImage({ urls: [url] })
   },
 
+  // 点购物袋：从底部弹出已选菜品弹层（不跳转页面）
   onCartTap() {
-    nav.goTab(2)
+    if (this.data.sheetOpen) {
+      this.setData({ sheetOpen: false })
+      return
+    }
+    if (!cart.count()) {
+      wx.showToast({ title: '购物车还是空的', icon: 'none' })
+      return
+    }
+    this.setData({ sheetOpen: true })
+  },
+
+  onSheetClose() {
+    if (!this.data.sheetOpen) return
+    this.setData({ sheetOpen: false })
+  },
+
+  // 弹层内增减/清空后，同步本菜品数量
+  onSheetChange() {
+    this.refreshQuantity()
+    if (!cart.count()) this.setData({ sheetOpen: false })
   }
 })

@@ -4,8 +4,8 @@
 }
 
 .s-btn {
-  width: 52rpx;
-  height: 52rpx;
+  width: 60rpx;
+  height: 60rpx;
   border-radius: 50%;
   background: var(--primary);
   display: flex;
@@ -19,12 +19,12 @@
 
 .s-minus {
   background: #FFFFFF;
-  border: 2rpx solid var(--line);
+  border: 2rpx solid #E6E0D6;
 }
 
 .s-icon {
-  width: 28rpx;
-  height: 28rpx;
+  width: 32rpx;
+  height: 32rpx;
 }
 
 /* 图标素材为橙色，通过滤镜统一为墨/白 */
@@ -40,18 +40,18 @@
 .s-num {
   min-width: 56rpx;
   text-align: center;
-  font-size: 28rpx;
+  font-size: 30rpx;
   color: var(--text-main);
 }
 
 .stepper-compact .s-btn {
-  width: 44rpx;
-  height: 44rpx;
+  width: 46rpx;
+  height: 46rpx;
 }
 
 .stepper-compact .s-icon {
-  width: 24rpx;
-  height: 24rpx;
+  width: 26rpx;
+  height: 26rpx;
 }
 
 .stepper-compact .s-num {

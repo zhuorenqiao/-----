@@ -2,6 +2,7 @@
   "navigationBarTitleText": "菜品详情",
   "usingComponents": {
     "stepper": "/components/stepper/stepper",
+    "cart-sheet": "/components/cart-sheet/cart-sheet",
     "fly-ball": "/components/fly-ball/fly-ball"
   }
 }
